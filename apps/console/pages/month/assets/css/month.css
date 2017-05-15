@@ -1,0 +1,15 @@
+.month-page {
+}
+
+.month-container {
+	margin-top: 20px;
+}
+
+.month-day {
+	float: left;
+	display: block;
+	min-width: 60px;
+	min-height: 100px;
+	padding: 5px;
+	border: solid 1px;
+}

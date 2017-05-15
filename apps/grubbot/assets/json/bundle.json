@@ -1,0 +1,15 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "grubbot",
+      "name": "Grubbot",
+      "blurb": "Do the Grubbot thing",
+      "publisher": "",
+      "url": "https://localhost:8080/grubbot",
+      "domain": "localhost",
+      "visible": true,
+      "icon":"https://localhost:8080/grubbot/assets/images/app.png"
+    }
+  ]
+}

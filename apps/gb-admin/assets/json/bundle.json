@@ -1,0 +1,15 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "gb-admin",
+      "name": "GbAdmin",
+      "blurb": "Do the GbAdmin thing",
+      "publisher": "",
+      "url": "https://localhost:8080/gb-admin",
+      "domain": "localhost",
+      "visible": true,
+      "icon":"https://localhost:8080/gb-admin/assets/images/app.png"
+    }
+  ]
+}
