@@ -8,7 +8,7 @@ Package('Console.Views', {
 			this.page = $('#month-page');
 		},
 
-		drawDay : function(weekTemplate, day)
+		drawDay : function(weekTemplate, day, date)
 		{
 			var dayTemplate = SAPPHIRE.templates.get('month-day');
 			if (!day)
@@ -17,22 +17,25 @@ Package('Console.Views', {
 			}
 			else
 			{
+				var cur = new Date(date);
+				cur.increment('day', day - 1);
+
 				dayTemplate.find('.date').text(day);
-				dayTemplate.on('drop', this.onDrop.bind(this));
+				dayTemplate.on('drop', this.onDrop.bind(this, cur));
 				dayTemplate.on('dragover', this.onDragOver.bind(this));
 			}
 
 			weekTemplate.append(dayTemplate);
 		},
 
-		drawWeek : function(container, skip, start, stop)
+		drawWeek : function(container, skip, start, stop, date)
 		{
 			var week = SAPPHIRE.templates.get('month-week');
 			for (var idx = 0; idx < 7; idx++)
 			{
 				if (idx < skip) this.drawDay(week, 0);
 				else if (idx + start > stop) this.drawDay(week, 0)
-				else this.drawDay(week, start + idx);
+				else this.drawDay(week, start + idx, date);
 			}
 
 			container.append(week);
@@ -55,7 +58,7 @@ Package('Console.Views', {
 			for (var idx = 0; idx < weeks; idx++)
 			{
 				var skip = (idx == 0) ? monthStart.getDay() : 0;
-				this.drawWeek(container, skip, idx * 7, monthStop.getDate());
+				this.drawWeek(container, skip, idx * 7, monthStop.getDate(), monthStart);
 			}
 
 			this.page.find('#month-name').text(monthName);
@@ -68,17 +71,19 @@ Package('Console.Views', {
 			this.drawMonth(this.current);
 		},
 
-		onDrop : function(event)
+		onDrop : function(date, event)
 		{
-			console.log('drop');
 			event.preventDefault();
 			event.stopPropagation();
 			var dt = event.originalEvent.dataTransfer;
+			console.log('drop', date);
 			console.log(event, dt);
 			console.log(dt.items);
 			console.log(dt.items[0]);
 			console.log(dt.files);
 			console.log(dt.files[0]);
+
+			this.fire('drop', date, dt.files);
 		},
 
 		onDragOver : function(event)

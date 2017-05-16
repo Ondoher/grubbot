@@ -8,6 +8,8 @@ GrubService = new Class({
 	initialize : function()
 	{
 		this.export('create', module);
+
+		this.addCSRFException('create');
 	},
 
 	verify : function(req, res)
@@ -17,10 +19,15 @@ GrubService = new Class({
 
 	create : function(req, res)
 	{
-		var session = req.session.get();
-		var id = req.body.botId;
+		console.log('-------------------');
+//		var session = req.session.get();
+//		var id = req.body.botId;
 
+		console.log('-------------------');
+		console.log(req.body);
 		console.log(req.files);
+		return Q({success: true});
+
 	},
 
 	uploadMenu : function(req, res)
@@ -33,4 +40,4 @@ GrubService = new Class({
 
 });
 
-new BotService();
+new GrubService();

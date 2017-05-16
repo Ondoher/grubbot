@@ -14,12 +14,21 @@ Package('Console.Controllers', {
 		onLoad : function()
 		{
 			this.view = new Console.Views.Month();
+			this.view.listen('drop', this.onDrop.bind(this));
+
+			this.grubModel = SAPPHIRE.application.getModel('grub');
 		},
 
 		onShow : function(panel, query)
 		{
 			this.view.draw(this.current);
 		},
+
+		onDrop : function(date, files)
+		{
+			console.log('dropped', files);
+			this.grubModel.create(date, files[0]);
+		}
 	})
 });
 

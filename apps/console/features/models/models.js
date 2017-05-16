@@ -8,6 +8,7 @@ module.exports = function(req, res, app)
 	models.addJS([
 		'/assets/js/lib/ajax-service.js',
 		'assets/js/Models/Service.js',
+		'assets/js/Models/Grub.js',
 	]);
 
 	models.addUrl('createGrub', '/console/services/grub/create');
