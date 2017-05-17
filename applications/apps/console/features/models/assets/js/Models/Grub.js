@@ -11,6 +11,7 @@ Package('Console.Models', {
 		{
 			var fd = new FormData();
 			fd.append('date', date.getTime());
+			fd.append('pod', CONSOLE.pod);
 			fd.append('menu', file);
 
 			var deferred = Q.defer();
@@ -54,9 +55,75 @@ Package('Console.Models', {
 			return deferred.promise;
 		},
 
+		saveMenu : function(file)
+		{
+			var fd = new FormData();
+			fd.append('menu', file);
+
+			var deferred = Q.defer();
+			var type = 'json';
+
+			method = 'POST';
+
+			$.ajax({
+				url: CONSOLE.urls.saveMenu,
+				type: 'POST',
+				data: fd,
+				contentType:false,
+				processData: false,
+				cache: false,
+				error: this.onAjaxError.bind(this, deferred),
+				success: this.onAjaxSuccess.bind(this, deferred),
+				xhr: function() {
+					var xhrobj = $.ajaxSettings.xhr();
+					if (xhrobj.upload) {
+							xhrobj.upload.addEventListener('progress', function(event) {
+								var percent = 0;
+								var position = event.loaded || event.position;
+								var total = event.total;
+								if (event.lengthComputable) {
+									percent = Math.ceil(position / total * 100);
+								}
+								//Set progress
+								//status.setProgress(percent);
+								console.log('percent', percent);
+							}, false);
+						}
+					return xhrobj;
+				},
+				xhrFields: {
+					withCredentials: true
+				}
+			});
+
+			return deferred.promise;
+		},
+
+		get : function(date)
+		{
+			return CONSOLE.service.call(CONSOLE.urls.getGrub, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
+				.then(function(data) {
+					if (data && !data.success) return Q.reject(new Error(data.error));
+
+					grub = data.result;
+					return grub
+				}.bind(this));
+		},
+
+		update : function(grub)
+		{
+			return CONSOLE.service.call(CONSOLE.urls.updateGrub, {grub: JSON.stringify(grub)}, 'POST')
+				.then(function(data) {
+					if (data && !data.success) return Q.reject(new Error(data.error));
+
+					grub = data.result;
+					return grub
+				}.bind(this));
+		},
+
 		onAjaxSuccess : function(deferred, response, status, xhr)
 		{
-			deferred.resolve(response);
+			deferred.resolve(response.result);
 		},
 
 		onAjaxError : function(deferred, jqXHR, textStatus, errorThrown)

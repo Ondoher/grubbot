@@ -1,5 +1,6 @@
 var Q = require('q');
 var sapphire = require('sapphire-express');
+require('./rpc');
 
 function main(req, res, app)
 {
@@ -51,6 +52,7 @@ exports.getApplication = function(req, res)
 		.then(use('features', 'services', req, res))
 		.then(use('features', 'main', req, res))
 		.then(use('pages', 'month', req, res))
+		.then(use('pages', 'day', req, res))
 		.then(function(app)
 		{
 			return Q(app);

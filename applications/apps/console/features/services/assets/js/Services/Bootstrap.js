@@ -41,6 +41,7 @@ Package('Console.Services', {
 			SYMPHONY.remote.hello()
 				.then(function(data) {
 					console.log('data', data);
+					CONSOLE.pod = data.pod;
 					this.setTheme(data.themeV2);
 					done();
 				}.bind(this))

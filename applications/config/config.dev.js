@@ -10,4 +10,5 @@ module.exports = {
 		cert : fs.readFileSync(__dirname + '/certs/localhost.cert', {encoding: 'utf-8'}),
 	},
 	cacheBust: false,
+	menuFiles: __dirname + '/../../menus',
 };

@@ -1,0 +1,33 @@
+{
+  "name": "grubbot-bot",
+  "version": "0.0.1",
+  "description": "The actual bot for grubbot ",
+  "main": "bot.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Ondoher/grubbot.git"
+  },
+  "keywords": [
+    "symphony",
+    "bot",
+    "nodejs"
+  ],
+  "author": "Glenn Anderson",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Ondoher/grubbot/issues"
+  },
+  "homepage": "https://github.com/Ondoher/grubbot#readme",
+  "dependencies": {
+    "base64url": "^2.0.0",
+    "mongodb": "^2.2.24",
+    "mootools": "^1.5.2",
+    "q": "^1.4.1",
+    "redis": "^2.7.1",
+    "sapphire-rpc": "file:/dev/sapphire-rpc",
+    "symphony-api": "^0.1.0"
+  }
+}

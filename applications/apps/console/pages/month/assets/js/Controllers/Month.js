@@ -27,7 +27,11 @@ Package('Console.Controllers', {
 		onDrop : function(date, files)
 		{
 			console.log('dropped', files);
-			this.grubModel.create(date, files[0]);
+			this.grubModel.create(date, files[0])
+				.then(function(grub) {
+					console.log('created grub menu', grub);
+					SAPPHIRE.application.showPage('day', date);
+				}.bind(this));
 		}
 	})
 });
