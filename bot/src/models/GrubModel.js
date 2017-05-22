@@ -23,6 +23,19 @@ class GrubModel extends MongoModel {
 			}.bind(this));
 	}
 
+	getAll (date)
+	{
+		date = new Date(date);
+		date.setHours(0, 0, 0, 0);
+		var ts = date.getTime();
+		return this.getCollection('grub')
+			.then(this.find.bind(this, {'date': ts}))
+			.then(function(result)
+			{
+				return result;
+			}.bind(this));
+	}
+
 	upsert (grub)
 	{
 		console.log('upsert', grub);

@@ -55,18 +55,44 @@ Package('Console.Models', {
 			return deferred.promise;
 		},
 
-		saveMenu : function(file)
+		get : function(date)
+		{
+			return CONSOLE.service.call(CONSOLE.urls.getGrub, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
+				.then(function(data) {
+					if (data && !data.success) return Q.reject(new Error(data.error));
+
+					grub = data.result;
+					return grub
+				}.bind(this));
+		},
+
+		update : function(grub)
+		{
+			return CONSOLE.service.call(CONSOLE.urls.updateGrub, {grub: JSON.stringify(grub)}, 'POST')
+				.then(function(data) {
+					if (data && !data.success) return Q.reject(new Error(data.error));
+
+					grub = data.result;
+					return grub
+				}.bind(this));
+		},
+
+		updateMenu : function(grub, selected, file)
 		{
 			var fd = new FormData();
-			fd.append('menu', file);
+			fd.append('grub', JSON.stringify(grub));
+			fd.append('index', selected);
+			if (file) fd.append('menu', file);
 
 			var deferred = Q.defer();
 			var type = 'json';
+			var csrfCode = Cookie.read('sapphire-csrf');
+			if (csrfCode && this.useCsrf) fd.append('csrfCode', csrfCode);
 
 			method = 'POST';
 
 			$.ajax({
-				url: CONSOLE.urls.saveMenu,
+				url: CONSOLE.urls.updateGrubMenu,
 				type: 'POST',
 				data: fd,
 				contentType:false,
@@ -97,28 +123,6 @@ Package('Console.Models', {
 			});
 
 			return deferred.promise;
-		},
-
-		get : function(date)
-		{
-			return CONSOLE.service.call(CONSOLE.urls.getGrub, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
-				.then(function(data) {
-					if (data && !data.success) return Q.reject(new Error(data.error));
-
-					grub = data.result;
-					return grub
-				}.bind(this));
-		},
-
-		update : function(grub)
-		{
-			return CONSOLE.service.call(CONSOLE.urls.updateGrub, {grub: JSON.stringify(grub)}, 'POST')
-				.then(function(data) {
-					if (data && !data.success) return Q.reject(new Error(data.error));
-
-					grub = data.result;
-					return grub
-				}.bind(this));
 		},
 
 		onAjaxSuccess : function(deferred, response, status, xhr)

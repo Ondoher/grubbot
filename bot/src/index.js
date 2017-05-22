@@ -1,1 +1,2 @@
 require('./rpc');
+require('./bot');

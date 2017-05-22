@@ -49,7 +49,10 @@
 }
 
 .day-details {
-	margin-bottom: 20px;
+	border-top: solid 1px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding-top: 10px;
 }
 
 .edit-venue {
@@ -67,6 +70,12 @@
 .save-menu-button {
 }
 
-
+.drop-zone {
+	text-align: center;
+	width: 100%;
+	padding: 20px;
+	border: solid 1px;
+	margin: 10px 5px;
+}
 
 

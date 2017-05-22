@@ -14,6 +14,8 @@ Package('Console.Controllers', {
 		{
 			this.view = new Console.Views.Day();
 			this.view.listen('save', this.onSave.bind(this));
+			this.view.listen('drop', this.onDrop.bind(this));
+			this.view.listen('done', this.onDone.bind(this));
 			this.grubModel = SAPPHIRE.application.getModel('grub');
 		},
 
@@ -32,7 +34,22 @@ Package('Console.Controllers', {
 		{
 			console.log('onSave', grub);
 			this.grubModel.update(grub);
+		},
 
+		onDrop : function(grub, selected, files)
+		{
+			console.log(this.grubModel);
+			this.grubModel.updateMenu(grub, selected, files[0])
+				.then(function(grub) {
+					console.log('updated grub menu', grub);
+					this.view.draw(grub)
+				}.bind(this));
+
+		},
+
+		onDone : function()
+		{
+			SAPPHIRE.application.showPage('month');
 		}
 	})
 });

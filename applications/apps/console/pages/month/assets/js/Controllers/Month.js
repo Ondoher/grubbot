@@ -11,6 +11,14 @@ Package('Console.Controllers', {
 			this.current = new Date();
 		},
 
+		createOrLoad : function(date, files)
+		{
+			return this.grubModel.create(date, files && files[0])
+				.then(function(grub) {
+					SAPPHIRE.application.showPage('day', date);
+				}.bind(this));
+		},
+
 		onLoad : function()
 		{
 			this.view = new Console.Views.Month();
@@ -27,17 +35,13 @@ Package('Console.Controllers', {
 
 		onClick : function(date)
 		{
-			SAPPHIRE.application.showPage('day', date);
+			this.createOrLoad(date);
 		},
 
 		onDrop : function(date, files)
 		{
 			console.log('dropped', files);
-			this.grubModel.create(date, files[0])
-				.then(function(grub) {
-					console.log('created grub menu', grub);
-					SAPPHIRE.application.showPage('day', date);
-				}.bind(this));
+			this.createOrLoad(date, files);
 		}
 	})
 });

@@ -12,10 +12,10 @@ GrubService = new Class({
 		this.export('create', module);
 		this.export('get', module);
 		this.export('update', module);
-		this.export('saveMenu', module);
+		this.export('updateMenu', module);
 
 		this.addCSRFException('create');
-		this.addCSRFException('saveMenu');
+		this.addCSRFException('updateMenu');
 	},
 
 	verify : function(req, res)
@@ -58,25 +58,48 @@ GrubService = new Class({
 			var name = btoa(uuid.v4()) + '.pdf';
 			var filename = path.join(CONFIG.menuFiles, name);
 			menu.mv(filename);
-			return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
-				.then(function(grub)
-				{
-					grub = grub || {
-						date: ts,
-						pod: pod,
-						meals: []
-					}
+		}
+		return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
+			.then(function(grub)
+			{
+				grub = grub || {
+					date: ts,
+					pod: pod,
+					meals: []
+				};
 
+				if (menu)
+				{
 					if (grub.meals.length === 0) grub.meals.push(this.getLunch(ts, name))
 					else if (grub.meals.length === 1) grub.meals.push(this.getDinner(ts, name))
 					else grub.meals.push(this.getDinner(ts, name))
+				}
 
-					return SERVER.ask('grub', 'grub', 'save', grub)
-						.then(function(grub)
-						{
-							console.log('grub', grub);
-							return Q({success: true, result: grub});
-						}.bind(this));
+				return SERVER.ask('grub', 'grub', 'save', grub)
+					.then(function(grub)
+					{
+						return Q({success: true, result: grub});
+					}.bind(this));
+			}.bind(this));
+	},
+
+	updateMenu : function(req, res)
+	{
+		var menu = req.files && req.files.menu;
+		var grub = JSON.parse(req.body.grub);
+		var index = parseInt(req.body.index, 10);
+
+		if (menu)
+		{
+			var name = btoa(uuid.v4()) + '.pdf';
+			var filename = path.join(CONFIG.menuFiles, name);
+			menu.mv(filename);
+			grub.meals[index].menu = name;
+
+			return SERVER.ask('grub', 'grub', 'save', grub)
+				.then(function(grub)
+				{
+					return Q({success: true, result: grub});
 				}.bind(this));
 		}
 		else
@@ -84,25 +107,6 @@ GrubService = new Class({
 			return Q({success: false, message: 'no menu specified'});
 		}
 	},
-
-	saveMenu : function(req, res)
-	{
-		var menu = req.files && req.files.menu;
-
-		if (menu)
-		{
-			var name = btoa(uuid.v4()) + '.pdf';
-			var filename = path.join(CONFIG.menuFiles, name);
-			menu.mv(filename);
-
-			return Q({success: true, result: name});
-		}
-		else
-		{
-			return Q({success: false, message: 'no menu specified'});
-		}
-	},
-
 
 	get : function(req, res)
 	{

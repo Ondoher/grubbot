@@ -14,7 +14,7 @@ module.exports = function(req, res, app)
 	models.addUrl('createGrub', '/console/services/grub/create');
 	models.addUrl('getGrub', '/console/services/grub/get');
 	models.addUrl('updateGrub', '/console/services/grub/update');
-	models.addUrl('saveMenu', '/console/services/grub/saveMenu');
+	models.addUrl('updateGrubMenu', '/console/services/grub/updateMenu');
 
 	return Q(app);
 }

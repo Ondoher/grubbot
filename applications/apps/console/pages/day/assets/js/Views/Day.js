@@ -10,14 +10,22 @@ Package('Console.Views', {
 			this.page.find('#edit-send').timepicki();
 			this.page.find('#edit-close').timepicki();
 			this.page.find('#save-menu').click(this.onSaveClick.bind(this));
+			this.page.find('#day-done-button').click(this.onDoneClick.bind(this));
+			this.selected = false;
+			this.dropZone = this.page.find('#drop-zone');
+			this.dropZone.on('drop', this.onDrop.bind(this));
+			this.dropZone.on('dragover', this.onDragOver.bind(this));
 		},
 
 		draw : function(grub, update)
 		{
+			this.meals = [];
 			this.grub = grub;
 			this.page.find('#day-date').text(new Date(grub.date).format('%B %e, %Y'));
 			var container = this.page.find('#meal-container');
 			container.empty();
+
+			if (this.selected === false) this.selected = grub.meals.length - 1;
 
 			grub.meals.each(function(meal, index)
 			{
@@ -27,12 +35,32 @@ Package('Console.Views', {
 				template.find('#meal-item-send').text(new Date(meal.start).format('%l:%M %p'));
 				template.find('#meal-item-close').text(new Date(meal.end).format('%l:%M %p'));
 				template.find('.item-delete-button').click(this.onDelete.bind(this, index));
-				template.click(this.onMealClick.bind(this, meal, template));
+				template.click(this.onMealClick.bind(this, index));
 
-				if (!update) this.onMealClick(meal, template);
+				this.meals.push({meal: meal, template: template, index: index});
 
 				container.append(template);
 			}, this);
+
+			if (this.meals.length) this.drawSelected();
+		},
+
+		drawSelected : function()
+		{
+			if (this.selected >= this.grub.meals.length) this.selected = this.grub.meals.length - 1;
+
+			var template = this.meals[this.selected].template;
+
+			$('.meal-item').removeClass('current');
+			template.addClass('current');
+
+			var meal = this.meals[this.selected].meal;
+
+			this.page.find('#edit-venue').val(meal.venue)
+			this.setInputTime(this.page.find('#edit-notification'), meal.notification);
+			this.setInputTime(this.page.find('#edit-send'), meal.start);
+			this.setInputTime(this.page.find('#edit-close'), meal.end);
+			this.page.find('#menu-pdf').text(meal.menu);
 		},
 
 		setInputTime : function(el, time)
@@ -59,31 +87,29 @@ Package('Console.Views', {
 			return result;
 		},
 
-		onMealClick : function(meal, template)
+		onMealClick : function(index)
 		{
-			this.current = {meal: meal, template: template}
-			console.log('meal', meal);
-			$('.meal-item').removeClass('current');
-			template.addClass('current');
-			this.page.find('#edit-venue').val(meal.venue)
-			this.setInputTime(this.page.find('#edit-notification'), meal.notification);
-			this.setInputTime(this.page.find('#edit-send'), meal.start);
-			this.setInputTime(this.page.find('#edit-close'), meal.end);
+			this.selected = index;
+			this.drawSelected();
 		},
 
 		onSaveClick : function()
 		{
-			var meal = this.current.meal;
-			console.log('grub', this.grub);
+			var meal = this.meals[this.selected].meal;
 
 			meal.venue = this.page.find('#edit-venue').val();
 			meal.notification = this.getInputTime(this.page.find('#edit-notification'));
 			meal.start = this.getInputTime(this.page.find('#edit-send'));
 			meal.end = this.getInputTime(this.page.find('#edit-close'));
 
-			this.draw(this.grub, true);
+			this.draw(this.grub);
 
 			this.fire('save', this.grub);
+		},
+
+		onDoneClick : function()
+		{
+			this.fire('done');
 		},
 
 		onDelete : function(index, event)
@@ -94,6 +120,21 @@ Package('Console.Views', {
 			this.grub.meals.splice(index, 1);
 			this.draw(this.grub);
 			this.fire('save', this.grub);
+		},
+
+		onDrop : function(event)
+		{
+			event.preventDefault();
+			event.stopPropagation();
+			var dt = event.originalEvent.dataTransfer;
+
+			this.fire('drop', this.grub, this.selected, dt.files);
+		},
+
+		onDragOver : function(event)
+		{
+			event.preventDefault();
+			event.stopPropagation();
 		}
 	})
 });
