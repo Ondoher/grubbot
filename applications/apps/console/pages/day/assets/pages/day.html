@@ -1,15 +1,31 @@
 <div id="day-page" class="page day-page">
 	<h1 id="day-date" class="day-date"></h1>
-	<table>
+	<table class="menu-table">
+		<thead>
+			<th id="meal-item" class="meal-item template">
+				<td class="meal-item-venue">Restaurant</td>
+				<td class="meal-item-notification">Send Notification</td>
+				<td class="meal-item-send">Send Survey</td>
+				<td class="meal-item-close">Close Survey</td>
+				<td class="meal-item-action"></td>
+			</th>
+		</thead>
 		<tbody id="meal-container" class="meal-container">
 			<tr id="meal-item" class="meal-item template">
 				<td id="meal-item-venue" class="meal-item-venue"></td>
 				<td id="meal-item-notification" class="meal-item-notification"></td>
 				<td id="meal-item-send" class="meal-item-send"></td>
 				<td id="meal-item-close" class="meal-item-close"></td>
+				<td class="meal-item-action"><button class="item-delete-button button">Delete</button></td>
 			</tr>
 		</tbody>
 	</table>
 	<div id="day-details" class="day-details">
+		<input type="string" id="edit-venue" placeholder="Enter Restaurant"/>
+		<input type="string" id="edit-notification"/>
+		<input type="string" id="edit-send"/>
+		<input type="string" id="edit-close"/>
+		<button id="save-menu" class="save-menu-button button">Save</button>
 	</div>
+	<button id="day-done-button" class="day-done-button button">Done </button>
 </div>

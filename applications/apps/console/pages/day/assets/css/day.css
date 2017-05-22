@@ -1,2 +1,72 @@
 .day-page {
 }
+
+.menu-table  {
+}
+.menu-table td {
+	padding: 5px;
+}
+
+.current.meal-item {
+	background: blue;
+	color: white;
+
+}
+
+.meal-item {
+	cursor: pointer;
+}
+
+.meal-item-venue {
+	min-width: 150px;
+}
+
+.meal-item-notification {
+}
+
+.meal-item-send {
+}
+
+.meal-item-close {
+}
+
+.meal-container {
+}
+
+.meal-item template {
+}
+
+.meal-item-venue {
+}
+
+.meal-item-notification {
+}
+
+.meal-item-send {
+}
+
+.meal-item-close {
+}
+
+.day-details {
+	margin-bottom: 20px;
+}
+
+.edit-venue {
+}
+
+.edit-notification {
+}
+
+.edit-send {
+}
+
+.edit-close {
+}
+
+.save-menu-button {
+}
+
+
+
+

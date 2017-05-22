@@ -14,11 +14,17 @@ function main(req, res, app)
 
 	app.addCSS([
 		'/console/assets/css/console.css',
+//		'/console/assets/3rdParty/time-picker/css/bootstrap.css',
+//		'/console/assets/3rdParty/time-picker/css/bootstrap-theme.min.css',
+//		'/console/assets/3rdParty/time-picker/css/style.css',
+		'/console/assets/3rdParty/time-picker/css/timepicki.css',
 	]);
 
 	app.addJS([
 		'/assets/js/lib/translate.js',
 		'/assets/js/lib/templates.js',
+		'/console/assets/3rdParty/time-picker/js/bootstrap.min.js',
+		'/console/assets/3rdParty/time-picker/js/timepicki.js',
 	]);
 
 

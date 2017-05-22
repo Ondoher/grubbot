@@ -15,6 +15,7 @@ Package('Console.Controllers', {
 		{
 			this.view = new Console.Views.Month();
 			this.view.listen('drop', this.onDrop.bind(this));
+			this.view.listen('click', this.onClick.bind(this));
 
 			this.grubModel = SAPPHIRE.application.getModel('grub');
 		},
@@ -22,6 +23,11 @@ Package('Console.Controllers', {
 		onShow : function(panel, query)
 		{
 			this.view.draw(this.current);
+		},
+
+		onClick : function(date)
+		{
+			SAPPHIRE.application.showPage('day', date);
 		},
 
 		onDrop : function(date, files)

@@ -23,6 +23,7 @@ Package('Console.Views', {
 				dayTemplate.find('.date').text(day);
 				dayTemplate.on('drop', this.onDrop.bind(this, cur));
 				dayTemplate.on('dragover', this.onDragOver.bind(this));
+				dayTemplate.click(this.onClick.bind(this, cur));
 			}
 
 			weekTemplate.append(dayTemplate);
@@ -91,7 +92,15 @@ Package('Console.Views', {
 			console.log('dragover');
 			event.preventDefault();
 			event.stopPropagation();
-		}
+		},
+
+		onClick : function(date)
+		{
+			event.preventDefault();
+			event.stopPropagation();
+
+			this.fire('click', date);
+		},
 
 	})
 });

@@ -69,6 +69,7 @@ GrubService = new Class({
 
 					if (grub.meals.length === 0) grub.meals.push(this.getLunch(ts, name))
 					else if (grub.meals.length === 1) grub.meals.push(this.getDinner(ts, name))
+					else grub.meals.push(this.getDinner(ts, name))
 
 					return SERVER.ask('grub', 'grub', 'save', grub)
 						.then(function(grub)
@@ -121,11 +122,11 @@ GrubService = new Class({
 	update : function(req, res)
 	{
 		var session = req.session.get();
-		var grub = JSON.parse(req.grub);
+		var grub = JSON.parse(req.body.grub);
 
 		grub.meals.each(function(meal)
 		{
-			meal.id = meal.id || btoa(uuid.v4()),
+			meal.id = meal.id || btoa(uuid.v4())
 		},this);
 
 		return SERVER.ask('grub', 'grub', 'save', grub)

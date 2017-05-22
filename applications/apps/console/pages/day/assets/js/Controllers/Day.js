@@ -13,6 +13,7 @@ Package('Console.Controllers', {
 		onLoad : function()
 		{
 			this.view = new Console.Views.Day();
+			this.view.listen('save', this.onSave.bind(this));
 			this.grubModel = SAPPHIRE.application.getModel('grub');
 		},
 
@@ -26,6 +27,13 @@ Package('Console.Controllers', {
 					this.view.draw(grub)
 				}.bind(this));
 		},
+
+		onSave : function(grub)
+		{
+			console.log('onSave', grub);
+			this.grubModel.update(grub);
+
+		}
 	})
 });
 
