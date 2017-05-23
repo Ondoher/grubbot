@@ -84,7 +84,7 @@ Package('Console.Views', {
 			result.setHours(hour);
 			result.setMinutes(minute);
 
-			return result;
+			return result.getTime();
 		},
 
 		onMealClick : function(index)

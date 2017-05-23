@@ -1,6 +1,7 @@
 var Q = require('q');
 var RpcHandler =  require('sapphire-rpc').RpcHandler;
 var GrubModel = require('../models/GrubModel');
+var registry = require('../bot/registry');
 
 class RpcGrub extends RpcHandler {
 	constructor ()
@@ -13,7 +14,12 @@ class RpcGrub extends RpcHandler {
 	{
 		if (channel !== 'grub') return Q(false);
 
-		return this.grubModel.upsert(data);
+		return this.grubModel.upsert(data)
+			.then(function(response)
+			{
+				registry.update();
+				return response;
+			}.bind(this));
 	}
 
 	get (channel, data)

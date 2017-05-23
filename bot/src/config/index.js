@@ -38,5 +38,6 @@ module.exports = {
 			},
 			threadId: nexusThreadId,
 		}
-	}
+	},
+	menuFiles: __dirname + '/../../../menus',
 }

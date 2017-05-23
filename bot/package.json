@@ -25,9 +25,10 @@
     "base64url": "^2.0.0",
     "mongodb": "^2.2.24",
     "mootools": "^1.5.2",
+    "mootools-more": "^1.5.2",
     "q": "^1.4.1",
     "redis": "^2.7.1",
     "sapphire-rpc": "file:/dev/sapphire-rpc",
-    "symphony-api": "^0.1.0"
+    "symphony-api": "file:/dev/symphony-api"
   }
 }

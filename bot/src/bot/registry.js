@@ -1,14 +1,16 @@
+var fs = require('fs');
 var Q = require('q');
 var config = require('../config');
 var GrubModel = require('../models/GrubModel');
 var symphonyApi = require('symphony-api');
+var path = require('path');
 
 class BotRegistry {
 	constructor ()
 	{
-		this.bots = [];
 		this.grubModel = new GrubModel();
-		this.interval = setInterval(this.tick.bind(this), 60 * 1000);
+//		this.interval = setInterval(this.tick.bind(this), 60 * 1000);
+		this.interval = setInterval(this.tick.bind(this), 10 * 1000);
 		this.running = [];
 	}
 
@@ -48,7 +50,7 @@ class BotRegistry {
 		return this.grubModel.getAll(date)
 			.then(function(bots)
 			{
-				console.log('all bots', bots);
+				console.log('all bots', JSON.stringify(bots, null, '  '));
 				this.running = bots;
 			}.bind(this));
 	}
@@ -59,6 +61,37 @@ class BotRegistry {
 			.then(this.run.bind(this))
 	}
 
+	sendNotification (pod, meal)
+	{
+		console.log('sendNotification', pod, meal)
+		var api = config.bots[pod].api;
+		var threadId = config.bots[pod].threadId;
+		var attachment = {
+			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
+			options: {
+				filename: 'menu.pdf',
+				contentType: 'application/pdf',
+			}
+		}
+		var message = `
+<messageML>
+	Today's lunch will be from ${meal.venue}. <hash tag="gogrub"/>
+</messageML>
+`;
+		api.message.v4.send(threadId, message, {}, attachment);
+		return true;
+	}
+
+	sendStart (pod, meal)
+	{
+		return true;
+	}
+
+	sendEnd (pod, meal)
+	{
+		return true;
+	}
+
 	update ()
 	{
 		return this.run();
@@ -66,9 +99,29 @@ class BotRegistry {
 
 	tick ()
 	{
+		var now = Date.now();
+
 		this.running.each(function(bot)
 		{
-			console.log(bot);
+			var lastSent = bot.lastSent;
+			var sent = false;
+			if (!bot.lastSent) bot.lastSent = bot.date;
+
+			bot.meals.each(function(meal)
+			{
+				if (bot.lastSent < meal.notification && meal.notification <= now) sent = this.sendNotification(bot.pod, meal);
+				if (bot.lastSent < meal.start && meal.start <= now) sent = this.sendStart(bot.pod, meal);
+				if (bot.lastSent < meal.end && meal.end <= now) sent = this.sendEnd(bot.pod, meal);
+
+				if (sent)
+				{
+					bot.lastSent = now;
+					console.log(JSON.stringify(bot, null, '  '));
+					this.grubModel.upsert(bot)
+				}
+				//this.sendNotification(bot.pod, meal)
+			}, this);
+
 		}, this);
 	}
 
