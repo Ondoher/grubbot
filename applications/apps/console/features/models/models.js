@@ -16,5 +16,10 @@ module.exports = function(req, res, app)
 	models.addUrl('updateGrub', '/console/services/grub/update');
 	models.addUrl('updateGrubMenu', '/console/services/grub/updateMenu');
 
+	models.addUrl('getVote', '/console/services/vote/get');
+	models.addUrl('countVote', '/console/services/vote/count');
+	models.addUrl('vote', '/console/services/vote/vote');
+	models.addUrl('getVoteResult', '/console/services/vote/result');
+
 	return Q(app);
 }

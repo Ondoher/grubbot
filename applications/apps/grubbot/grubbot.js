@@ -44,6 +44,7 @@ exports.getApplication = function(req, res)
 	return main(req, res, app)
 		.then(sapphire.features.animator.bind(sapphire.features.animator, req, res))
 		.then(sapphire.features.dialogs.bind(sapphire.features.dialogs, req, res))
+		.then(use('features', 'models', req, res))
 		.then(use('features', 'services', req, res))
 		.then(function(app)
 		{

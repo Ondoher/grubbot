@@ -75,7 +75,7 @@ class BotRegistry {
 		}
 		var message = `
 <messageML>
-	Today's lunch will be from ${meal.venue}. <hash tag="gogrub"/>
+	Today's lunch will be from ${meal.venue}. <hash tag="grubon"/>
 </messageML>
 `;
 		api.message.v4.send(threadId, message, {}, attachment);
@@ -84,11 +84,79 @@ class BotRegistry {
 
 	sendStart (pod, meal)
 	{
+		var api = config.bots[pod].api;
+		var threadId = config.bots[pod].threadId;
+		var attachment = {
+			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
+			options: {
+				filename: 'menu.pdf',
+				contentType: 'application/pdf',
+			}
+		}
+		var date = new Date(meal.start);
+		date.setHours(0,0,0,0);
+
+		var data = {
+			vote: {
+				type: 'com.symphony.grubbot.feedback',
+				version: 1.0,
+				id: meal.id,
+				date: date.getTime(),
+				start: meal.start,
+				end: meal.end,
+				venue: meal.venue,
+				menu: meal.menu,
+			}
+		};
+		var message = `
+<messageML>
+	<hash tag="grubvote"/>
+	<div class="entity" data-entity-id="vote">
+		<span>Install the Grubbot application to provide feedback on the latest meal.</span>
+	</div>
+</messageML>
+`;
+		api.message.v4.send(threadId, message, data, attachment).done();
 		return true;
 	}
 
 	sendEnd (pod, meal)
 	{
+		var api = config.bots[pod].api;
+		var threadId = config.bots[pod].threadId;
+		var date = new Date(meal.start);
+		date.setHours(0,0,0,0);
+
+		var attachment = {
+			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
+			options: {
+				filename: 'menu.pdf',
+				contentType: 'application/pdf',
+			}
+		}
+
+		var data = {
+			vote: {
+				type: 'com.symphony.grubbot.feedback',
+				version: 1.0,
+				id: meal.id,
+				date: date.getTime(),
+				start: meal.start,
+				end: meal.end,
+				venue: meal.venue,
+				menu: meal.menu,
+			}
+		};
+
+		var message = `
+<messageML>
+	<hash tag="grubvote"/>
+	<div class="entity" data-entity-id="vote">
+		<span>Feedback period has ended. Install the Grubbot application to see results.</span>
+	</div>
+</messageML>
+`;
+		api.message.v4.send(threadId, message, data, attachment).done();
 		return true;
 	}
 
@@ -119,7 +187,7 @@ class BotRegistry {
 					console.log(JSON.stringify(bot, null, '  '));
 					this.grubModel.upsert(bot)
 				}
-				//this.sendNotification(bot.pod, meal)
+
 			}, this);
 
 		}, this);

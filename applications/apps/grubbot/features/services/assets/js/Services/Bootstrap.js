@@ -43,6 +43,7 @@ Package('Grubbot.Services', {
 				.then(function(response)
 				{
 					this.userId = response.userReferenceId;
+					GRUBBOT.userId = this.userId;
 
 					GRUBBOT.events.fire('start');
 				}.bind(this))

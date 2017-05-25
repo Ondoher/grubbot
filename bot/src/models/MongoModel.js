@@ -44,10 +44,15 @@ class MongoModel {
 
 	find (search, collection)
 	{
-		var response = [];
 		var cursor = collection.find(search);
 		return Q(cursor.toArray());
 	}
+
+	count (search, collection)
+	{
+		return Q(collection.count(search));
+	}
+
 }
 
 module.exports = MongoModel;

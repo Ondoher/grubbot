@@ -7,8 +7,9 @@ function base64EncodeUrl(str){
 	return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
 }
 
+var n2CrazyThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); //nexus2
 var nexusThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); //nexus2
-
+var n2PrivateThreadId = base64EncodeUrl('DxbnV8++z3vny/SIX7NqGX///qPFMGuYdA==');
 
 module.exports = {
 	bots: {
@@ -36,7 +37,7 @@ module.exports = {
 				key: fs.readFileSync(__dirname + '/certs/bot.user1-key.pem', {encoding: 'utf-8'}),
 				passphrase: 'changeit',
 			},
-			threadId: nexusThreadId,
+			threadId: n2PrivateThreadId,
 		}
 	},
 	menuFiles: __dirname + '/../../../menus',

@@ -7,28 +7,39 @@ Package('Grubbot.Services', {
 			this.serviceName = 'grubbot:renderer';
 			this.importServices = 'entity'.split(',');
 
+			this.voteModel = SAPPHIRE.application.getModel('vote');
 			SYMPHONY.services.make(this.serviceName, this, this.implements, true);
 
 			SAPPHIRE.application.listen('start', this.onStart.bind(this));
 			GRUBBOT.events.listen('start', this.onReady.bind(this));
 		},
 
-		action: function()
+		action: function(data)
 		{
-			console.log('action', arguments);
+			console.log('action', data);
+			this.voteModel.vote(data.entity.id, GRUBBOT.userId, data.vote)
+				.then(function(response)
+				{
+					console.log('voted', response);
+				}.bind(this));
 		},
 
-		render : function(type, entityData)
+		renderVoting : function(entityData)
 		{
+			var instanceId = String.uniqueID();
 			var result = {
-				template: this.surveyXml,
+				template: this.votingXml,
 				data: {
+					venue: entityData.venue,
+					end: new Date(entityData.end).format('%T'),
 					onestar: {
 						icon: GRUBBOT.baseUrl + '/grubbot/assets/images/star.png',
 						label: '',
 						service: this.serviceName,
 						data : {
-							vote: 1
+							cmd: 'vote',
+							vote: 1,
+							instanceId: instanceId,
 						}
 					},
 					twostars: {
@@ -36,7 +47,10 @@ Package('Grubbot.Services', {
 						label: '',
 						service: this.serviceName,
 						data : {
-							vote: 2
+							cmd: 'vote',
+							vote: 2,
+							entity: entityData,
+							instanceId: instanceId,
 						}
 					},
 					threestars: {
@@ -44,7 +58,10 @@ Package('Grubbot.Services', {
 						label: '',
 						service: this.serviceName,
 						data : {
-							vote: 3
+							cmd: 'vote',
+							vote: 3,
+							entity: entityData,
+							instanceId: instanceId,
 						}
 					},
 					fourstars: {
@@ -52,7 +69,10 @@ Package('Grubbot.Services', {
 						label: '',
 						service: this.serviceName,
 						data : {
-							vote: 4
+							cmd: 'vote',
+							vote: 4,
+							entity: entityData,
+							instanceId: instanceId,
 						}
 					},
 					fivestars: {
@@ -60,13 +80,24 @@ Package('Grubbot.Services', {
 						label: '',
 						service: this.serviceName,
 						data : {
-							vote: 5
+							cmd: 'vote',
+							vote: 5,
+							entity: entityData,
+							instanceId: instanceId,
 						}
 					},
-				}
+				},
+
+				entityInstanceId : instanceId,
 			};
 
 			return result;
+		},
+
+		render : function(type, entityData)
+		{
+			console.log('render', entityData);
+			return this.renderVoting(entityData);
 		},
 
 		onStart : function(done)
@@ -84,11 +115,10 @@ Package('Grubbot.Services', {
 
 		onReady : function()
 		{
-			this.surveyTemplate = SAPPHIRE.templates.get('survey-template');
-			this.surveyXml = new XMLSerializer().serializeToString(this.surveyTemplate[0]);
+			this.votingXml = GRUBBOT.votingTemplate;
 
 			this.entity = SYMPHONY.services.subscribe('entity');
-			this.entity.registerRenderer('com.symphony.grubbot.survey', {}, this.serviceName);
+			this.entity.registerRenderer('com.symphony.grubbot.feedback', {}, this.serviceName);
 		}
 	})
 });
