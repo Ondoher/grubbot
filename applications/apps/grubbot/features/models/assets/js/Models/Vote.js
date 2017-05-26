@@ -7,9 +7,9 @@ Package('Grubbot.Models', {
 			this.parent();
 		},
 
-		get : function(meal, user)
+		get : function(meal)
 		{
-			return GRUBBOT.service.call(GRUBBOT.urls.getVote, {meal: meal, user: user}, 'POST')
+			return GRUBBOT.service.call(GRUBBOT.urls.getVote, {meal: meal, user: GRUBBOT.userId}, 'POST')
 				.then(function(data) {
 					if (data && !data.success) return Q.reject(new Error(data.error));
 

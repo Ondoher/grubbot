@@ -2,7 +2,7 @@ var Q = require('q');
 var Feature = require('sapphire-express').Feature;
 var votingTemplate = require('./templates/voting');
 var votedTemplate = require('./templates/voted');
-var closedTemplate = require('./templates/voted');
+var closedTemplate = require('./templates/closed');
 
 module.exports = function(req, res, app)
 {

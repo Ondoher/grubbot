@@ -31,7 +31,7 @@ class RpcVote extends RpcHandler {
 		if (channel !== 'vote') return Q(false);
 
 		var votesModel = new VoteModel();
-		return votesModel.getResult (data.meal)
+		return votesModel.getResult(data.meal)
 	}
 
 	count (channel, data)

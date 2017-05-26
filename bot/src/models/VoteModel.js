@@ -68,26 +68,32 @@ class VoteModel extends MongoModel {
 
 	getAll (meal)
 	{
-		date = new Date(date);
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
 		return this.getCollection('vote')
 			.then(this.find.bind(this, {'meal': meal}))
 	}
 
 	getResult (meal)
 	{
+		console.log('getResult', meal);
 		return this.getAll(meal)
 			.then(function(meals)
 			{
+				console.log('getResult then', meals);
 				if (!meals || meals.length === 0) return false;
 
 				var sum = meals.reduce(function(acc, meal)
 				{
+					console.log('reducing', acc, meal);
 					return acc + meal.value;
-				}.bind(this));
+				}.bind(this), 0);
 
-				return sum / meals.length;
+				console.log('sum', sum);
+
+				return {
+					total: sum,
+					count: meals.length,
+					average: sum / meals.length,
+				}
 			}.bind(this), 0)
 	}
 
