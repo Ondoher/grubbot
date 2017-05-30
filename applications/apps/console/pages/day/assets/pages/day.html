@@ -3,6 +3,7 @@
 	<table class="menu-table">
 		<thead>
 			<th id="meal-item" class="meal-item template">
+				<td class="meal-item-type">Meal</td>
 				<td class="meal-item-venue">Restaurant</td>
 				<td class="meal-item-notification">Send Notification</td>
 				<td class="meal-item-send">Send Survey</td>
@@ -12,6 +13,7 @@
 		</thead>
 		<tbody id="meal-container" class="meal-container">
 			<tr id="meal-item" class="meal-item template">
+				<td id="meal-item-type" class="meal-item-type"></td>
 				<td id="meal-item-venue" class="meal-item-venue"></td>
 				<td id="meal-item-notification" class="meal-item-notification"></td>
 				<td id="meal-item-send" class="meal-item-send"></td>
@@ -21,12 +23,13 @@
 		</tbody>
 	</table>
 	<div id="day-details" class="day-details">
-		<input type="string" id="edit-venue" placeholder="Enter Restaurant"/>
-		<input type="string" id="edit-notification"/>
-		<input type="string" id="edit-send"/>
-		<input type="string" id="edit-close"/>
+		<label for="edit-type">Type of meal</label><input type="string" id="edit-type"/>
+		<label for="edit-venue">Restaurant Name</label><input type="string" id="edit-venue"/>
+		<label for="edit-motification">Send Notification</label><input type="string" id="edit-notification"/>
+		<label for="edit-send">Send Survey</label><input type="string" id="edit-send"/>
+		<label for="edit-close">Survey Closes</label><input type="string" id="edit-close"/>
 		<a href="javascript:void()" id="menu-pdf" class="menu-pdf"></a>
-		<div id="drop-zone" class="drop-zone">Drop New Menu Here</div>
+		<div id="drop-zone" class="drop-zone">To change menu drop here</div>
 		<button id="save-menu" class="save-menu-button button">Save</button>
 	</div>
 	<button id="day-done-button" class="day-done-button button">Done </button>

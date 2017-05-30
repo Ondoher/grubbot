@@ -3,7 +3,7 @@ module.exports = `
 	<card>
 		<h3>Grubbot Survey for <text id="venue"/></h3>
 		<div>
-		How did you like today's lunch from <text id="venue"/>?
+		How did you like today's <text id="type" /> from <text id="venue"/>?
 		Please provide feedback by clicking one of the
 		stars below to rate the meal.
 		</div><br/>

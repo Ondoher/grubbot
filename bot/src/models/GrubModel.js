@@ -23,13 +23,26 @@ class GrubModel extends MongoModel {
 			}.bind(this));
 	}
 
-	getAll (date)
+	getAll (date, pod)
 	{
 		date = new Date(date);
 		date.setHours(0, 0, 0, 0);
 		var ts = date.getTime();
 		return this.getCollection('grub')
-			.then(this.find.bind(this, {'date': ts}))
+			.then(this.find.bind(this, {'date': ts, pod: pod}))
+			.then(function(result)
+			{
+				return result;
+			}.bind(this));
+	}
+
+	getMonth (date, pod)
+	{
+		date = new Date(date);
+		var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+		var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getTime();
+		return this.getCollection('grub')
+			.then(this.find.bind(this, {'date': {$gte : firstDay, $lte: lastDay}, pod: pod}))
 			.then(function(result)
 			{
 				return result;

@@ -6,6 +6,9 @@ Package('Console.Views', {
 		{
 			this.parent();
 			this.page = $('#month-page');
+			this.page.find('#month-prev').click(this.fire.bind(this, 'prev'));
+			this.page.find('#month-next').click(this.fire.bind(this, 'next'));
+			this.month = {};
 		},
 
 		drawDay : function(weekTemplate, day, date)
@@ -17,6 +20,8 @@ Package('Console.Views', {
 			}
 			else
 			{
+				var start = new Date(date);
+				start.setHours(0, 0, 0, 0);
 				var cur = new Date(date);
 				cur.increment('day', day - 1);
 
@@ -24,6 +29,19 @@ Package('Console.Views', {
 				dayTemplate.on('drop', this.onDrop.bind(this, cur));
 				dayTemplate.on('dragover', this.onDragOver.bind(this));
 				dayTemplate.click(this.onClick.bind(this, cur));
+
+				var thisDay = this.month[parseInt(cur.getTime(), 10)];
+				if (thisDay)
+				{
+					var mealList = [];
+					thisDay.meals.each(function(meal)
+					{
+						mealList.push($('<span>').text(meal.type).text());
+					}, this);
+
+					mealList = mealList.join('<br/>');
+					dayTemplate.find('.day-meals').html(mealList);
+				}
 			}
 
 			weekTemplate.append(dayTemplate);
@@ -31,12 +49,13 @@ Package('Console.Views', {
 
 		drawWeek : function(container, skip, start, stop, date)
 		{
+			console.log('drawWeek', skip, start, stop, date)
 			var week = SAPPHIRE.templates.get('month-week');
 			for (var idx = 0; idx < 7; idx++)
 			{
 				if (idx < skip) this.drawDay(week, 0);
 				else if (idx + start > stop) this.drawDay(week, 0)
-				else this.drawDay(week, start + idx, date);
+				else this.drawDay(week, start + idx - skip, date);
 			}
 
 			container.append(week);
@@ -45,8 +64,10 @@ Package('Console.Views', {
 		drawMonth : function(current)
 		{
 			var monthName = current.format('%B');
+//			var monthStart = new Date(current.getFullYear(), current.getMonth(), 1);
+//			var monthStop = new Date(current.getFullYear(), current.getMonth(), current.get('lastdayofmonth'));
 			var monthStart = new Date(current.getFullYear(), current.getMonth(), 1);
-			var monthStop = new Date(current.getFullYear(), current.getMonth(), current.get('lastdayofmonth'));
+			var monthStop = new Date(current.getFullYear(), current.getMonth() + 1, 0);
 			var weeks = current.getWeeksInMonth();
 			var container = this.page.find('.month-container');
 			container.empty();
@@ -55,20 +76,28 @@ Package('Console.Views', {
 			console.log('start', monthStart, 'stop', monthStop);
 			console.log('start', monthStart.getDay(), 'stop', monthStop.getDate());
 			console.log('weeks', weeks);
+			var day = 1
 
 			for (var idx = 0; idx < weeks; idx++)
 			{
 				var skip = (idx == 0) ? monthStart.getDay() : 0;
-				this.drawWeek(container, skip, idx * 7, monthStop.getDate(), monthStart);
+				this.drawWeek(container, skip, day, monthStop.getDate(), monthStart);
+				day += 7 - skip;
 			}
 
 			this.page.find('#month-name').text(monthName);
 
 		},
 
-		draw : function(current)
+		draw : function(current, month)
 		{
 			this.current = current;
+			this.month = {};
+			month.each(function(day)
+			{
+				this.month[parseInt(day.date, 10)] = day;
+			}, this);
+
 			this.drawMonth(this.current);
 		},
 

@@ -13,6 +13,7 @@ module.exports = function(req, res, app)
 
 	models.addUrl('createGrub', '/console/services/grub/create');
 	models.addUrl('getGrub', '/console/services/grub/get');
+	models.addUrl('getGrubMonth', '/console/services/grub/getMonth');
 	models.addUrl('updateGrub', '/console/services/grub/update');
 	models.addUrl('updateGrubMenu', '/console/services/grub/updateMenu');
 

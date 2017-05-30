@@ -21,7 +21,7 @@ Package('Grubbot.Services', {
 			this.tracked[entity.instanceId] = entity;
 		},
 
-		unTrack : function(instanceId)
+		untrack : function(instanceId)
 		{
 			delete this.tracked[instanceId];
 		},
@@ -69,11 +69,12 @@ Package('Grubbot.Services', {
 				}.bind(this));
 		},
 
-		renderVoting : function(entityData)
+		renderVoting : function(entityData, instanceId)
 		{
 			var result = {
 				template: this.votingXml,
 				data: {
+					type: entityData.mealType,
 					venue: entityData.venue,
 					end: new Date(entityData.end).format('%T'),
 					onestar: {
@@ -198,13 +199,19 @@ Package('Grubbot.Services', {
 				{
 					var result;
 
+					console.log('vote data', response);
+
 					if (entityData.end < Date.now()) result = this.renderClosed(entityData, response);
-					else if (!response) result = this.renderVoting(entityData);
+					else if (!response.vote) result = this.renderVoting(entityData, instanceId);
 					else result = this.renderVoted(entityData, response);
 
 					result.entityInstanceId = instanceId;
 
-					if (entityData.end > Date.now() &&  response) this.track({instanceId: instanceId, entityData: entityData});
+					if (entityData.end < Date.now() &&  response)
+						setTimeout(function()
+						{
+							this.track({instanceId: instanceId, entityData: entityData});
+						}.bind(this), 5000);
 
 					return result;
 				}.bind(this));
@@ -221,7 +228,7 @@ Package('Grubbot.Services', {
 					var result;
 
 					if (entityData.end < Date.now()) result = this.renderClosed(entityData, response);
-					else if (!response) result = this.renderVoting(entityData);
+					else if (!response.vote) result = this.renderVoting(entityData);
 					else result = this.renderVoted(entityData, response);
 
 					if (entityData.end > Date.now()) this.untrack(tracked.instanceId);
@@ -251,7 +258,7 @@ Package('Grubbot.Services', {
 
 			this.entity = SYMPHONY.services.subscribe('entity');
 			this.entity.registerRenderer('com.symphony.grubbot.feedback', {}, this.serviceName);
-			this.interval = setInterval(this.tick.bind(this), 5 * 1000);
+			this.interval = setInterval(this.tick.bind(this), 180 * 1000);
 //			this.interval = setInterval(this.tick.bind(this), 5 * 60 * 1000);
 		}
 	})

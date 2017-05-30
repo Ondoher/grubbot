@@ -66,6 +66,17 @@ Package('Console.Models', {
 				}.bind(this));
 		},
 
+		getMonth : function(date)
+		{
+			return CONSOLE.service.call(CONSOLE.urls.getGrubMonth, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
+				.then(function(data) {
+					if (data && !data.success) return Q.reject(new Error(data.error));
+
+					grub = data.result;
+					return grub
+				}.bind(this));
+		},
+
 		update : function(grub)
 		{
 			return CONSOLE.service.call(CONSOLE.urls.updateGrub, {grub: JSON.stringify(grub)}, 'POST')

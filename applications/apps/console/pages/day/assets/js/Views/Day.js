@@ -30,6 +30,7 @@ Package('Console.Views', {
 			grub.meals.each(function(meal, index)
 			{
 				var template = SAPPHIRE.templates.get('meal-item');
+				template.find('#meal-item-type').text(meal.type || '');
 				template.find('#meal-item-venue').text(meal.venue || '');
 				template.find('#meal-item-notification').text(new Date(meal.notification).format('%l:%M %p'));
 				template.find('#meal-item-send').text(new Date(meal.start).format('%l:%M %p'));
@@ -57,6 +58,7 @@ Package('Console.Views', {
 			var meal = this.meals[this.selected].meal;
 
 			this.page.find('#edit-venue').val(meal.venue)
+			this.page.find('#edit-type').val(meal.type)
 			this.setInputTime(this.page.find('#edit-notification'), meal.notification);
 			this.setInputTime(this.page.find('#edit-send'), meal.start);
 			this.setInputTime(this.page.find('#edit-close'), meal.end);
@@ -97,6 +99,7 @@ Package('Console.Views', {
 		{
 			var meal = this.meals[this.selected].meal;
 
+			meal.type = this.page.find('#edit-type').val();
 			meal.venue = this.page.find('#edit-venue').val();
 			meal.notification = this.getInputTime(this.page.find('#edit-notification'));
 			meal.start = this.getInputTime(this.page.find('#edit-send'));

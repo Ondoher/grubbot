@@ -11,6 +11,7 @@ GrubService = new Class({
 	{
 		this.export('create', module);
 		this.export('get', module);
+		this.export('getMonth', module);
 		this.export('update', module);
 		this.export('updateMenu', module);
 
@@ -26,6 +27,7 @@ GrubService = new Class({
 	getLunch : function(date, filname)
 	{
 		return {
+			type: 'lunch',
 			id: btoa(uuid.v4()),
 			menu: filname,
 			notification: date + 9 * 60 * 60 * 1000,
@@ -37,6 +39,7 @@ GrubService = new Class({
 	getDinner : function(date, filname)
 	{
 		return {
+			type: 'dinner',
 			id: btoa(uuid.v4()),
 			menu: filname,
 			notification: date + 15 * 60 * 60 * 1000,
@@ -116,6 +119,21 @@ GrubService = new Class({
 		var ts = date.getTime();
 
 		return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
+			.then(function(grub)
+			{
+				return {success: true, result: grub};
+			}.bind(this));
+
+	},
+
+	getMonth : function(req, res)
+	{
+		var date = new Date(parseInt(req.body.date, 10));
+		var pod = req.body.pod;
+		date.setHours(0, 0, 0, 0);
+		var ts = date.getTime();
+
+		return SERVER.ask('grub', 'grub', 'getMonth', {date: ts, pod: pod})
 			.then(function(grub)
 			{
 				return {success: true, result: grub};

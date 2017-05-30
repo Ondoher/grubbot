@@ -75,7 +75,7 @@ class BotRegistry {
 		}
 		var message = `
 <messageML>
-	Today's lunch will be from ${meal.venue}. <hash tag="grubon"/>
+	Today's ${meal.type} will be from ${meal.venue}. <hash tag="grubon"/>
 </messageML>
 `;
 		api.message.v4.send(threadId, message, {}, attachment);
@@ -106,6 +106,7 @@ class BotRegistry {
 				end: meal.end,
 				venue: meal.venue,
 				menu: meal.menu,
+				mealType: meal.type,
 			}
 		};
 		var message = `
@@ -144,6 +145,7 @@ class BotRegistry {
 				start: meal.start,
 				end: meal.end,
 				venue: meal.venue,
+				mealType: meal.type,
 				menu: meal.menu,
 			}
 		};
