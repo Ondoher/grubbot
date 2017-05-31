@@ -46,9 +46,12 @@ class BotRegistry {
 		var date = new Date();
 		date.setHours(0, 0, 0, 0);
 
+		this.date = date;
+
 		return this.grubModel.getAll(date)
 			.then(function(bots)
 			{
+				console.log('running', bots);
 				this.running = bots;
 			}.bind(this));
 	}
@@ -167,6 +170,11 @@ class BotRegistry {
 	tick ()
 	{
 		var now = Date.now();
+		var date = new Date();
+		date.setHours(0, 0, 0, 0);
+
+		console.log(this.date, date);
+		if (this.date.getTime() !== date.getTime()) return this.run();
 
 		this.running.each(function(bot)
 		{

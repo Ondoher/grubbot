@@ -140,9 +140,9 @@ Package('Grubbot.Services', {
 		getStar : function(part)
 		{
 			part = Math.max(part, 0);
-			var emptyStar = GRUBBOT.baseUrl + '/grubbot/assets/images/star_lg.png';
-			var halfStar = GRUBBOT.baseUrl + '/grubbot/assets/images/half-star_lg.png';
-			var fullStar = GRUBBOT.baseUrl + '/grubbot/assets/images/full-star_lg.png';
+			var emptyStar = GRUBBOT.baseUrl + '/grubbot/assets/images/star.png';
+			var halfStar = GRUBBOT.baseUrl + '/grubbot/assets/images/half-star.png';
+			var fullStar = GRUBBOT.baseUrl + '/grubbot/assets/images/full-star.png';
 
 			if (part === 0) return '<img src="' + emptyStar + '" />';
 			if (part <= 0.5) return '<img src="' + halfStar + '" />';

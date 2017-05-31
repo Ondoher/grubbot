@@ -95,6 +95,7 @@ Package('Console.Views', {
 			var meri = el.attr('data-timepicki-meri');
 			var result = new Date(this.grub.date);
 
+			hour = (hour === 12) ? 0 : hour;
 			if (meri.charAt(0).toLowerCase() === 'p') hour += 12;
 
 			result.setHours(hour);

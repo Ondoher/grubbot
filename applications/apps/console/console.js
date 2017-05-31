@@ -10,6 +10,7 @@ function main(req, res, app)
 
 	app.addCSS([
 		'https://www.symphony.com/resources/api/v1.1/symphony-style.css',
+//		'https://symphony.com/resources/api/v2.0/styles/symphony-external-app.css',
 	], true);
 
 	app.addCSS([
