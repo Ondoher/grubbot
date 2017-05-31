@@ -42,7 +42,6 @@ Package('Console.Models', {
 								}
 								//Set progress
 								//status.setProgress(percent);
-								console.log('percent', percent);
 							}, false);
 						}
 					return xhrobj;
@@ -123,7 +122,6 @@ Package('Console.Models', {
 								}
 								//Set progress
 								//status.setProgress(percent);
-								console.log('percent', percent);
 							}, false);
 						}
 					return xhrobj;

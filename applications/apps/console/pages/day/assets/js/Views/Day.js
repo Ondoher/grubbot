@@ -17,6 +17,11 @@ Package('Console.Views', {
 			this.dropZone.on('dragover', this.onDragOver.bind(this));
 		},
 
+		clear : function()
+		{
+			this.selected = false;
+		},
+
 		draw : function(grub, update)
 		{
 			this.meals = [];
@@ -56,6 +61,7 @@ Package('Console.Views', {
 			template.addClass('current');
 
 			var meal = this.meals[this.selected].meal;
+			var href = CONSOLE.baseUrl + 'console/services/grub/downloadMenu?name=' + meal.menu;
 
 			this.page.find('#edit-venue').val(meal.venue)
 			this.page.find('#edit-type').val(meal.type)
@@ -63,6 +69,14 @@ Package('Console.Views', {
 			this.setInputTime(this.page.find('#edit-send'), meal.start);
 			this.setInputTime(this.page.find('#edit-close'), meal.end);
 			this.page.find('#menu-pdf').text(meal.menu);
+			this.page.find('#menu-pdf').off('click');
+			this.page.find('#menu-pdf').click(this.onMenuClick.bind(this, href));
+
+			var iframeContainer = $('.menu-iframe-container');
+			var iframe = $('<iframe class="menu-iframe">').attr('src', href);
+			iframeContainer.empty();
+			iframeContainer.append(iframe);
+
 		},
 
 		setInputTime : function(el, time)
@@ -138,6 +152,15 @@ Package('Console.Views', {
 		{
 			event.preventDefault();
 			event.stopPropagation();
+		},
+
+		onMenuClick : function(href, e)
+		{
+			e.preventDefault();
+			e.stopPropagation();
+			var modules = SYMPHONY.services.subscribe('modules');
+
+			modules.openLink(href);
 		}
 	})
 });

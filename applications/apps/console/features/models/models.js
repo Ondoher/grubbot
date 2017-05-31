@@ -9,6 +9,7 @@ module.exports = function(req, res, app)
 		'/assets/js/lib/ajax-service.js',
 		'assets/js/Models/Service.js',
 		'assets/js/Models/Grub.js',
+		'assets/js/Models/Vote.js',
 	]);
 
 	models.addUrl('createGrub', '/console/services/grub/create');
@@ -17,10 +18,7 @@ module.exports = function(req, res, app)
 	models.addUrl('updateGrub', '/console/services/grub/update');
 	models.addUrl('updateGrubMenu', '/console/services/grub/updateMenu');
 
-	models.addUrl('getVote', '/console/services/vote/get');
-	models.addUrl('countVote', '/console/services/vote/count');
-	models.addUrl('vote', '/console/services/vote/vote');
-	models.addUrl('getVoteResult', '/console/services/vote/result');
+	models.addUrl('getVoteMonthResult', '/grubbot/services/vote/resultMonth');
 
 	return Q(app);
 }

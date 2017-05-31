@@ -21,27 +21,23 @@ Package('Console.Controllers', {
 
 		onShow : function(day)
 		{
-			console.log('day', day);
+			this.view.clear();
 			this.grubModel.get(day)
 				.then(function(grub)
 				{
-					console.log('day grub', grub);
 					this.view.draw(grub)
 				}.bind(this));
 		},
 
 		onSave : function(grub)
 		{
-			console.log('onSave', grub);
 			this.grubModel.update(grub);
 		},
 
 		onDrop : function(grub, selected, files)
 		{
-			console.log(this.grubModel);
 			this.grubModel.updateMenu(grub, selected, files[0])
 				.then(function(grub) {
-					console.log('updated grub menu', grub);
 					this.view.draw(grub)
 				}.bind(this));
 

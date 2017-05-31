@@ -13,6 +13,7 @@ VoteService = new Class({
 		this.export('vote', module);
 		this.export('count', module);
 		this.export('result', module);
+		this.export('resultMonth', module);
 	},
 
 	verify : function(req, res)
@@ -38,12 +39,9 @@ VoteService = new Class({
 		var user = req.body.user;
 		var value = parseInt(req.body.value, 10);
 
-		console.log('vote', meal, user, value);
-
 		return SERVER.ask('vote', 'vote', 'vote', {meal: meal, user: user, value: value})
 			.then(function(vote)
 			{
-				console.log('voted', meal, user, value);
 				return {success: true, result: vote};
 			}.bind(this));
 	},
@@ -70,6 +68,17 @@ VoteService = new Class({
 			}.bind(this));
 	},
 
+	resultMonth : function(req, res)
+	{
+		var date = req.body.date;
+		var pod = req.body.pod;
+
+		return SERVER.ask('vote', 'vote', 'resultMonth', {date: parseInt(date, 10), pod: pod})
+			.then(function(vote)
+			{
+				return {success: true, result: vote};
+			}.bind(this));
+	},
 });
 
 new VoteService();

@@ -3,6 +3,13 @@ var Service = require('sapphire-express').Service;
 var uuid = require('node-uuid');
 var path = require('path');
 var btoa = require('btoa');
+var static = require('node-static');
+
+var directory = CONFIG.menuFiles;
+if (directory.indexOf(':') !==-1) directory = directory.split(':')[1];
+directory = directory.split('\\').join('/');
+var file = new(static.Server)(directory);
+
 
 GrubService = new Class({
 	Implements : [Service],
@@ -14,9 +21,11 @@ GrubService = new Class({
 		this.export('getMonth', module);
 		this.export('update', module);
 		this.export('updateMenu', module);
+		this.export('downloadMenu', module);
 
 		this.addCSRFException('create');
 		this.addCSRFException('updateMenu');
+		this.addCSRFException('downloadMenu');
 	},
 
 	verify : function(req, res)
@@ -61,6 +70,7 @@ GrubService = new Class({
 			var name = btoa(uuid.v4()) + '.pdf';
 			var filename = path.join(CONFIG.menuFiles, name);
 			menu.mv(filename);
+
 		}
 		return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
 			.then(function(grub)
@@ -157,6 +167,23 @@ GrubService = new Class({
 				return {success: true, result: grub};
 			}.bind(this));
 	},
+
+	downloadMenu :  function(req, res)
+	{
+		var deferred = Q.defer();
+		var name = req.query.name;
+
+		file.serveFile(name, 200, {}, req, res).on('end', function()
+		{
+			deferred.resolve(null);
+		}.bind(this)).on('error', function(e)
+		{
+			deferred.reject(e);
+		}.bind(this));
+
+		return deferred.promise;
+
+	}
 
 });
 

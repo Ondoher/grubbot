@@ -1,6 +1,25 @@
 .day-page {
 }
 
+.detail-fields {
+	width: 300px;
+	float: left;
+	margin: 0px 20px;
+}
+
+.detail-menu {
+	float: left;
+	min-width: 700px;
+}
+
+.menu-iframe-container {
+}
+
+.menu-iframe {
+	min-width: 700px;
+	min-height: 500px
+}
+
 .menu-table  {
 }
 .menu-table td {
@@ -49,6 +68,7 @@
 }
 
 .day-details {
+	width: 100%;
 	border-top: solid 1px;
 	margin-top: 20px;
 	margin-bottom: 10px;

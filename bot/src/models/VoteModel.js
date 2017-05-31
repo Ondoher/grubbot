@@ -2,6 +2,7 @@ var Q = require('q');
 var DB = require('./db');
 var MongoModel = require('./MongoModel');
 var ObjectID = require('mongodb').ObjectID;
+var GrubModel = require('./GrubModel');
 
 class VoteModel extends MongoModel {
 	constructor ()
@@ -21,7 +22,6 @@ class VoteModel extends MongoModel {
 			.then(this.find.bind(this, {meal: meal, user: user}))
 			.then(function(result)
 			{
-				console.log('get result', result);
 				if (!result || result.length !== 1) return false;
 				return result[0];
 			}.bind(this));
@@ -50,7 +50,6 @@ class VoteModel extends MongoModel {
 
 	vote (meal, user, value)
 	{
-		console.log('voting...', meal, user, value)
 		return this.get(meal, user)
 			.then(function(vote)
 			{
@@ -60,7 +59,6 @@ class VoteModel extends MongoModel {
 					user: user,
 					value: value
 				}
-				console.log('vote', vote);
 				return this.upsert(vote);
 
 			}.bind(this));
@@ -72,22 +70,23 @@ class VoteModel extends MongoModel {
 			.then(this.find.bind(this, {'meal': meal}))
 	}
 
+	getAllFrom (meals)
+	{
+		return this.getCollection('vote')
+			.then(this.find.bind(this, {'meal': {$in: meals}}))
+	}
+
 	getResult (meal)
 	{
-		console.log('getResult', meal);
 		return this.getAll(meal)
 			.then(function(meals)
 			{
-				console.log('getResult then', meals);
 				if (!meals || meals.length === 0) return false;
 
 				var sum = meals.reduce(function(acc, meal)
 				{
-					console.log('reducing', acc, meal);
 					return acc + meal.value;
 				}.bind(this), 0);
-
-				console.log('sum', sum);
 
 				return {
 					total: sum,
@@ -95,6 +94,48 @@ class VoteModel extends MongoModel {
 					average: sum / meals.length,
 				}
 			}.bind(this), 0)
+	}
+
+	getMeals (days)
+	{
+		var meals = [];
+		days.each(function(day)
+		{
+			day.meals.each(function(meal)
+			{
+				meals.push(meal.id);
+			}, this);
+		}, this);
+
+		return Q(meals);
+	}
+
+	summarize (votes)
+	{
+		var totals = {};
+
+		votes.each(function(vote)
+		{
+			totals[vote.meal] = totals[vote.meal] || {sum: 0, count: 0};
+			totals[vote.meal].sum += vote.value;
+			totals[vote.meal].count++;
+		}, this);
+
+		Object.each(totals, function(total)
+		{
+			total.average = total.sum / total.count;
+		}, this);
+
+		return Q(totals);
+	}
+
+	getResultMonth (date, pod)
+	{
+		this.grubModel = new GrubModel();
+		return this.grubModel.getMonth(date, pod)
+			.then(this.getMeals.bind(this))
+			.then(this.getAllFrom.bind(this))
+			.then(this.summarize.bind(this));
 	}
 
 }

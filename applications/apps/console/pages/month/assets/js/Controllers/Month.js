@@ -34,6 +34,7 @@ Package('Console.Controllers', {
 			this.view.listen('prev', this.onPrev.bind(this));
 
 			this.grubModel = SAPPHIRE.application.getModel('grub');
+			this.voteModel = SAPPHIRE.application.getModel('vote');
 		},
 
 		onShow : function()
@@ -41,8 +42,12 @@ Package('Console.Controllers', {
 			this.grubModel.getMonth(this.current)
 				.then(function(month)
 				{
-					console.log(month);
-					this.view.draw(this.current, month);
+					this.month = month;
+					this.voteModel.getMonthResult(this.current)
+						.then(function(result)
+						{
+							this.view.draw(this.current, this.month, result);
+						}.bind(this));
 				}.bind(this));
 
 		},
@@ -54,7 +59,6 @@ Package('Console.Controllers', {
 
 		onDrop : function(date, files)
 		{
-			console.log('dropped', files);
 			this.createOrLoad(date, files);
 		},
 

@@ -11,6 +11,32 @@ Package('Console.Views', {
 			this.month = {};
 		},
 
+		getStar : function(part)
+		{
+			part = Math.max(part, 0);
+			var emptyStar = CONSOLE.baseUrl + '/grubbot/assets/images/star_sm.png';
+			var halfStar = CONSOLE.baseUrl + '/grubbot/assets/images/half-star_sm.png';
+			var fullStar = CONSOLE.baseUrl + '/grubbot/assets/images/full-star_sm.png';
+
+			if (part === 0) return '<img src="' + emptyStar + '" />';
+			if (part <= 0.5) return '<img src="' + halfStar + '" />';
+			else return '<img src="' + fullStar + '" />';
+		},
+
+		getStars : function(average)
+		{
+			average = Math.round(average * 2) / 2;
+			var stars = '';
+
+			stars += this.getStar(average);
+			stars += this.getStar(average - 1);
+			stars += this.getStar(average - 2);
+			stars += this.getStar(average - 3);
+			stars += this.getStar(average - 4);
+
+			return stars;
+		},
+
 		drawDay : function(weekTemplate, day, date)
 		{
 			var dayTemplate = SAPPHIRE.templates.get('month-day');
@@ -36,11 +62,28 @@ Package('Console.Views', {
 					var mealList = [];
 					thisDay.meals.each(function(meal)
 					{
-						mealList.push($('<span>').text(meal.type).text());
+						var rating = this.ratings[meal.id];
+						var href = CONSOLE.baseUrl + 'console/services/grub/downloadMenu?name=' + meal.menu;
+
+						var mealStr = '<a href="' + href + '">' +
+							$('<span>').text(meal.type).text() + '</a>';
+
+						if (rating) {
+							var stars = this.getStars(rating.average);
+							mealStr += '<br/>' + stars;
+						}
+
+						mealList.push(mealStr);
 					}, this);
 
 					mealList = mealList.join('<br/>');
 					dayTemplate.find('.day-meals').html(mealList);
+					var links = dayTemplate.find('.day-meals a');
+					links.each(function(idx, el)
+					{
+						var el = $(el);
+						el.click(this.onLinkClick.bind(this, el.attr('href')));
+					}.bind(this));
 				}
 			}
 
@@ -49,7 +92,6 @@ Package('Console.Views', {
 
 		drawWeek : function(container, skip, start, stop, date)
 		{
-			console.log('drawWeek', skip, start, stop, date)
 			var week = SAPPHIRE.templates.get('month-week');
 			for (var idx = 0; idx < 7; idx++)
 			{
@@ -72,10 +114,6 @@ Package('Console.Views', {
 			var container = this.page.find('.month-container');
 			container.empty();
 
-			console.log('month', current.get('Month'), 'monthName', monthName);
-			console.log('start', monthStart, 'stop', monthStop);
-			console.log('start', monthStart.getDay(), 'stop', monthStop.getDate());
-			console.log('weeks', weeks);
 			var day = 1
 
 			for (var idx = 0; idx < weeks; idx++)
@@ -89,9 +127,10 @@ Package('Console.Views', {
 
 		},
 
-		draw : function(current, month)
+		draw : function(current, month, ratings)
 		{
 			this.current = current;
+			this.ratings = ratings;
 			this.month = {};
 			month.each(function(day)
 			{
@@ -106,19 +145,12 @@ Package('Console.Views', {
 			event.preventDefault();
 			event.stopPropagation();
 			var dt = event.originalEvent.dataTransfer;
-			console.log('drop', date);
-			console.log(event, dt);
-			console.log(dt.items);
-			console.log(dt.items[0]);
-			console.log(dt.files);
-			console.log(dt.files[0]);
 
 			this.fire('drop', date, dt.files);
 		},
 
 		onDragOver : function(event)
 		{
-			console.log('dragover');
 			event.preventDefault();
 			event.stopPropagation();
 		},
@@ -131,6 +163,14 @@ Package('Console.Views', {
 			this.fire('click', date);
 		},
 
+		onLinkClick(href, e)
+		{
+			e.preventDefault();
+			e.stopPropagation();
+			var modules = SYMPHONY.services.subscribe('modules');
+
+			modules.openLink(href);
+		}
 	})
 });
 

@@ -51,7 +51,6 @@ class GrubModel extends MongoModel {
 
 	upsert (grub)
 	{
-		console.log('upsert', typeof grub._id);
 		if (grub._id && typeof grub._id !== 'object') grub._id = new ObjectID.createFromHexString(grub._id);
 		return this.getCollection('grub')
 			.then(function(collection)

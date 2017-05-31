@@ -34,6 +34,14 @@ class RpcVote extends RpcHandler {
 		return votesModel.getResult(data.meal)
 	}
 
+	resultMonth (channel, data)
+	{
+		if (channel !== 'vote') return Q(false);
+
+		var votesModel = new VoteModel();
+		return votesModel.getResultMonth(data.date, data.pod)
+	}
+
 	count (channel, data)
 	{
 		if (channel !== 'vote') return Q(false);

@@ -22,15 +22,21 @@
 			</tr>
 		</tbody>
 	</table>
-	<div id="day-details" class="day-details">
-		<label for="edit-type">Type of meal</label><input type="string" id="edit-type"/>
-		<label for="edit-venue">Restaurant Name</label><input type="string" id="edit-venue"/>
-		<label for="edit-motification">Send Notification</label><input type="string" id="edit-notification"/>
-		<label for="edit-send">Send Survey</label><input type="string" id="edit-send"/>
-		<label for="edit-close">Survey Closes</label><input type="string" id="edit-close"/>
-		<a href="javascript:void()" id="menu-pdf" class="menu-pdf"></a>
-		<div id="drop-zone" class="drop-zone">To change menu drop here</div>
-		<button id="save-menu" class="save-menu-button button">Save</button>
+	<div id="day-details" class="day-details clearfix">
+		<div class="detail-fields">
+			<label for="edit-type">Type of meal</label><input type="string" id="edit-type"/>
+			<label for="edit-venue">Restaurant Name</label><input type="string" id="edit-venue"/>
+			<label for="edit-motification">Send Notification</label><input type="string" id="edit-notification"/>
+			<label for="edit-send">Send Survey</label><input type="string" id="edit-send"/>
+			<label for="edit-close">Survey Closes</label><input type="string" id="edit-close"/>
+			<button id="save-menu" class="save-menu-button button">Save</button>
+		</div>
+		<div class="detail-menu">
+			<div class="menu-iframe-container"></div>
+			<a href="javascript:void()" id="menu-pdf" class="menu-pdf"></a>
+			<div id="drop-zone" class="drop-zone">To change menu drop here</div>
+
+		</div>
 	</div>
 	<button id="day-done-button" class="day-done-button button">Done </button>
 </div>

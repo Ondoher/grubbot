@@ -46,11 +46,9 @@ class BotRegistry {
 		var date = new Date();
 		date.setHours(0, 0, 0, 0);
 
-		console.log('run');
 		return this.grubModel.getAll(date)
 			.then(function(bots)
 			{
-				console.log('all bots', JSON.stringify(bots, null, '  '));
 				this.running = bots;
 			}.bind(this));
 	}
@@ -63,7 +61,6 @@ class BotRegistry {
 
 	sendNotification (pod, meal)
 	{
-		console.log('sendNotification', pod, meal)
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
 		var attachment = {
@@ -186,7 +183,6 @@ class BotRegistry {
 				if (sent)
 				{
 					bot.lastSent = now;
-					console.log(JSON.stringify(bot, null, '  '));
 					this.grubModel.upsert(bot)
 				}
 
