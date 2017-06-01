@@ -28,7 +28,7 @@
     "mootools-more": "^1.5.2",
     "q": "^1.4.1",
     "redis": "^2.7.1",
-    "sapphire-rpc": "file:/dev/sapphire-rpc",
-    "symphony-api": "file:/dev/symphony-api"
+    "sapphire-rpc": "^0.1.1",
+    "symphony-api": "^0.1.0"
   }
 }

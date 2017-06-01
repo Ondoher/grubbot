@@ -7,6 +7,6 @@
     "express-fileupload": "^0.1.3",
     "q": "^1.4.1",
     "sapphire-express": "^1.0.0",
-    "sapphire-rpc": "file:/dev/sapphire-rpc"
+    "sapphire-rpc": "^0.1.0"
   }
 }
