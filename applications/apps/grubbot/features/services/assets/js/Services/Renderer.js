@@ -76,7 +76,7 @@ Package('Grubbot.Services', {
 				data: {
 					type: entityData.mealType,
 					venue: entityData.venue,
-					end: new Date(entityData.end).format('%T'),
+					end: new Date(entityData.end).format('%l:%M %p'),
 					onestar: {
 						icon: GRUBBOT.baseUrl + '/grubbot/assets/images/star.png',
 						label: '',

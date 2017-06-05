@@ -1,9 +1,8 @@
 module.exports = `
 <entity>
 	<card>
-		<h3>You have already voted</h3>
-		Current results
-		<hr/>
+		<h3>Thank you for your vote!</h3>
+		<p>Current results:</p>
 		<formatted id="stars"/>
 	</card>
 </entity>

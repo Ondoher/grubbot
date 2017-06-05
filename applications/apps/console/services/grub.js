@@ -36,7 +36,7 @@ GrubService = new Class({
 	getLunch : function(date, filname)
 	{
 		return {
-			type: 'lunch',
+			type: 'Lunch',
 			id: btoa(uuid.v4()),
 			menu: filname,
 			notification: date + 9 * 60 * 60 * 1000,
@@ -48,7 +48,7 @@ GrubService = new Class({
 	getDinner : function(date, filname)
 	{
 		return {
-			type: 'dinner',
+			type: 'Dinner',
 			id: btoa(uuid.v4()),
 			menu: filname,
 			notification: date + 15 * 60 * 60 * 1000,

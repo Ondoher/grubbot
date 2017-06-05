@@ -65,8 +65,8 @@ Package('Console.Views', {
 						var rating = this.ratings[meal.id];
 						var href = CONSOLE.baseUrl + 'console/services/grub/downloadMenu?name=' + meal.menu;
 
-						var mealStr = '<a href="' + href + '">' +
-							$('<span>').text(meal.type).text() + '</a>';
+						var mealStr = '<a class="tempo-text-color--link" href="' + href + '">' +
+							$('<span>').text(meal.venue || meal.type).text() + '</a>';
 
 						if (rating) {
 							var stars = this.getStars(rating.average);

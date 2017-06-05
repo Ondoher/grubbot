@@ -63,12 +63,12 @@ Package('Console.Views', {
 			var meal = this.meals[this.selected].meal;
 			var href = CONSOLE.baseUrl + 'console/services/grub/downloadMenu?name=' + meal.menu;
 
-			this.page.find('#edit-venue').val(meal.venue)
-			this.page.find('#edit-type').val(meal.type)
+			this.page.find('#edit-venue').val(meal.venue);
+			this.page.find('#edit-type').val(meal.type);
+			this.page.find('#meal-item-title').html(meal.type);
 			this.setInputTime(this.page.find('#edit-notification'), meal.notification);
 			this.setInputTime(this.page.find('#edit-send'), meal.start);
 			this.setInputTime(this.page.find('#edit-close'), meal.end);
-			this.page.find('#menu-pdf').text(meal.menu);
 			this.page.find('#menu-pdf').off('click');
 			this.page.find('#menu-pdf').click(this.onMenuClick.bind(this, href));
 
