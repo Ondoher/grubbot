@@ -1,101 +1,78 @@
-.day-page {
+h2{
+	margin: 2rem 0 1rem;
 }
-
+.day-page{
+	max-width: 1200px;
+}
+label{
+	font-weight: 600;
+	margin: 0.5rem 0 0.2rem;
+}
 .detail-fields {
-	width: 300px;
 	float: left;
-	margin: 0px 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
-
+#save-menu{
+	align-self: flex-end;
+}
+.title-container{
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+.title-container h2, .title-container h1{
+	flex-grow: 1;
+}
+.day-details {
+	width: 100%;
+	border-top: 1px rgba(0,0,0,0.1) solid;
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+}
 .detail-menu {
-	float: left;
-	min-width: 700px;
+	width: 100%;
+	max-width: 700px;
+	align-self: center;
 }
-
-.menu-iframe-container {
-}
-
 .menu-iframe {
 	min-width: 700px;
 	min-height: 500px
 }
 
 .menu-table  {
+	width: 100%;
 }
 .menu-table td {
 	padding: 5px;
+	width: 20%;
 }
-
+.current.meal-item .meal-item-type {
+	font-weight: 700;
+}
 .current.meal-item {
-	background: blue;
-	color: white;
-
+	background: rgba(0,0,0,0.05);
 }
-
 .meal-item {
 	cursor: pointer;
 }
-
-.meal-item-venue {
-	min-width: 150px;
+.meal-item:hover{
+	background: rgba(0,0,0,0.03);
 }
-
 .meal-item-notification {
 }
-
 .meal-item-send {
 }
-
 .meal-item-close {
 }
-
-.meal-container {
-}
-
-.meal-item template {
-}
-
-.meal-item-venue {
-}
-
-.meal-item-notification {
-}
-
-.meal-item-send {
-}
-
-.meal-item-close {
-}
-
-.day-details {
-	width: 100%;
-	border-top: solid 1px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	padding-top: 10px;
-}
-
-.edit-venue {
-}
-
-.edit-notification {
-}
-
-.edit-send {
-}
-
-.edit-close {
-}
-
-.save-menu-button {
-}
-
 .drop-zone {
 	text-align: center;
 	width: 100%;
 	padding: 20px;
-	border: solid 1px;
+	background: rgba(0,0,0,0.03);
+	border: solid rgba(0,0,0,0.1) 3px;
+	border-radius: 3px;
 	margin: 10px 5px;
 }
-
-

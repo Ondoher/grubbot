@@ -1,8 +1,30 @@
-.month-page {
-}
-
 .month-container {
 	margin-top: 20px;
+    overflow: hidden;
+	border: 1px rgba(0,0,0,0.1) solid;
+	border-width: 0px 0px 0px 1px;
+}
+
+.month-header-container{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+h1{
+	flex-grow: 1;
+}
+
+.month-header{
+	display: flex;
+    align-items: center;
+}
+
+.month-name {
+	margin-right: 8px;
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	font-weight: 300;
 }
 
 .month-day {
@@ -10,7 +32,25 @@
 	display: block;
 	min-width: 75px;
 	min-height: 100px;
-	padding: 5px;
-	border: solid 1px;
+	padding: 0.5rem;
+	border: 1px rgba(0,0,0,0.1) solid;
+	border-width: 0px 1px 1px 0px;
+	color: rgba(0,0,0,0.87);
+	flex: 1 1 auto;
+}
+
+.month-week{
+	overflow: hidden;
+	clear: left;
+	display: flex;
+}
+
+.month-week:first-child{
+	border: 1px rgba(0,0,0,0.1) solid;
+	border-width: 1px 0px 0px 0px;
+}
+
+.month-day:not(.empty):hover{
+	background: rgba(0,0,0,0.03);
 	cursor: pointer;
 }
