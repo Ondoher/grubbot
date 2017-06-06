@@ -76,3 +76,9 @@ label{
 	border-radius: 3px;
 	margin: 10px 5px;
 }
+
+.hide-no-details {display: flex}
+.no-details .hide-no-details {display: none}
+
+.show-no-details {display: none}
+.no-details .show-no-details {display: block}

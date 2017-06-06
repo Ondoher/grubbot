@@ -14,9 +14,6 @@ function main(req, res, app)
 
 	app.addCSS([
 		'/console/assets/css/console.css',
-//		'/console/assets/3rdParty/time-picker/css/bootstrap.css',
-//		'/console/assets/3rdParty/time-picker/css/bootstrap-theme.min.css',
-//		'/console/assets/3rdParty/time-picker/css/style.css',
 		'/console/assets/3rdParty/time-picker/css/timepicki.css',
 	]);
 

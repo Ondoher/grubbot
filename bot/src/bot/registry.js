@@ -12,6 +12,11 @@ class BotRegistry {
 //		this.interval = setInterval(this.tick.bind(this), 60 * 1000);
 		this.interval = setInterval(this.tick.bind(this), 10 * 1000);
 		this.running = [];
+
+		var date = new Date();
+		date.setHours(0, 0, 0, 0);
+
+		this.date = date;
 	}
 
 	authOne(bot)
@@ -173,7 +178,6 @@ class BotRegistry {
 		var date = new Date();
 		date.setHours(0, 0, 0, 0);
 
-		console.log(this.date, date);
 		if (this.date.getTime() !== date.getTime()) return this.run();
 
 		this.running.each(function(bot)

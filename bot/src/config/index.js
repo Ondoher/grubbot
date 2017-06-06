@@ -1,6 +1,7 @@
 fs = require('fs');
 
 var corp = 'corporate.symphony.com';
+var corpApi = 'corporate-api.symphony.com';
 var nexus2 = 'nexus2.symphony.com';
 
 function base64EncodeUrl(str){
@@ -10,23 +11,24 @@ function base64EncodeUrl(str){
 var n2CrazyThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); //nexus2
 var nexusThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); //nexus2
 var n2PrivateThreadId = base64EncodeUrl('DxbnV8++z3vny/SIX7NqGX///qPFMGuYdA==');
+var corpTestThreadId = base64EncodeUrl('QBsRAH+GVNvyvRsK9AVufX///qOCFrt8dA==');
 
 module.exports = {
 	bots: {
-/*
 		1045: {
-			keyUrl: 'https://' + corp + ':8444/keyauth',
-			sessionUrl: 'https://' + corp + ':8444/sessionauth',
+			keyUrl: 'https://' + corpApi + ':8444/keyauth',
+			sessionUrl: 'https://' + corpApi + ':8444/sessionauth',
 			agentUrl: 'https://' + corp + ':443/agent',
 			podUrl: 'https://' + corp + ':443/pod',
+
 			auth: {
-				cert: fs.readFileSync(__dirname + '/certs/bot.user1-cert.pem', {encoding: 'utf-8'}),
-				key: fs.readFileSync(__dirname + '/certs/bot.user1-key.pem', {encoding: 'utf-8'}),
+				cert: fs.readFileSync(__dirname + '/certs/grub.bot-cert.pem', {encoding: 'utf-8'}),
+				key: fs.readFileSync(__dirname + '/certs/grub.bot-key.pem', {encoding: 'utf-8'}),
 				passphrase: 'changeit',
 			},
-
+			threadId: corpTestThreadId,
 		},
-*/
+
 		'130' : {
 			keyUrl: 'https://' + nexus2 + ':8444/keyauth',
 			sessionUrl: 'https://' + nexus2 + ':8444/sessionauth',

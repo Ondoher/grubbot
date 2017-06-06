@@ -11,10 +11,15 @@ Package('Console.Views', {
 			this.page.find('#edit-close').timepicki();
 			this.page.find('#save-menu').click(this.onSaveClick.bind(this));
 			this.page.find('#day-done-button').click(this.onDoneClick.bind(this));
+			this.page.find('#new-meal').click(this.onNewMealClick.bind(this));
 			this.selected = false;
 			this.dropZone = this.page.find('#drop-zone');
 			this.dropZone.on('drop', this.onDrop.bind(this));
 			this.dropZone.on('dragover', this.onDragOver.bind(this));
+
+			this.newDropZone = this.page.find('#new-drop-zone');
+			this.newDropZone.on('drop', this.onNewDrop.bind(this));
+			this.newDropZone.on('dragover', this.onNewDragOver.bind(this));
 		},
 
 		clear : function()
@@ -40,7 +45,7 @@ Package('Console.Views', {
 				template.find('#meal-item-notification').text(new Date(meal.notification).format('%l:%M %p'));
 				template.find('#meal-item-send').text(new Date(meal.start).format('%l:%M %p'));
 				template.find('#meal-item-close').text(new Date(meal.end).format('%l:%M %p'));
-				template.find('.item-delete-button').click(this.onDelete.bind(this, index));
+				template.find('.item-delete-btn').click(this.onDelete.bind(this, index));
 				template.click(this.onMealClick.bind(this, index));
 
 				this.meals.push({meal: meal, template: template, index: index});
@@ -49,6 +54,7 @@ Package('Console.Views', {
 			}, this);
 
 			if (this.meals.length) this.drawSelected();
+			else this.page.addClass('no-details');
 		},
 
 		drawSelected : function()
@@ -106,6 +112,7 @@ Package('Console.Views', {
 
 		onMealClick : function(index)
 		{
+			this.page.removeClass('no-details');
 			this.selected = index;
 			this.drawSelected();
 		},
@@ -153,6 +160,29 @@ Package('Console.Views', {
 		{
 			event.preventDefault();
 			event.stopPropagation();
+		},
+
+		onNewDrop : function(event)
+		{
+			event.preventDefault();
+			event.stopPropagation();
+			var dt = event.originalEvent.dataTransfer;
+			this.selected = false;
+			this.page.removeClass('no-details');
+
+			this.fire('new-drop', this.grub, this.selected, dt.files);
+		},
+
+		onNewDragOver : function(event)
+		{
+			event.preventDefault();
+			event.stopPropagation();
+		},
+
+		onNewMealClick : function()
+		{
+			this.page.addClass('no-details');
+			$('.meal-item').removeClass('current');
 		},
 
 		onMenuClick : function(href, e)

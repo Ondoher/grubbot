@@ -3,9 +3,10 @@ var config = {
 	useCompression: false,
 	builderCache: false,
 	minify : false,
+	menuFiles: __dirname + '/../../../../menus',
 }
 
-var env = process.env.node_env;
+var env = process.env.node_env || 'dev';
 
 envConfig = {};
 try

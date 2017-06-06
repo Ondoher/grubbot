@@ -5,7 +5,7 @@ var path = require('path');
 var btoa = require('btoa');
 var static = require('node-static');
 
-var directory = CONFIG.menuFiles;
+var directory = CONFIG.console.menuFiles;
 if (directory.indexOf(':') !==-1) directory = directory.split(':')[1];
 directory = directory.split('\\').join('/');
 var file = new(static.Server)(directory);
@@ -68,7 +68,7 @@ GrubService = new Class({
 		if (menu)
 		{
 			var name = btoa(uuid.v4()) + '.pdf';
-			var filename = path.join(CONFIG.menuFiles, name);
+			var filename = path.join(CONFIG.console.menuFiles, name);
 			menu.mv(filename);
 
 		}
@@ -105,7 +105,8 @@ GrubService = new Class({
 		if (menu)
 		{
 			var name = btoa(uuid.v4()) + '.pdf';
-			var filename = path.join(CONFIG.menuFiles, name);
+			console.log('----CONFIG.console.menuFiles',  CONFIG.console.menuFiles);
+			var filename = path.join(CONFIG.console.menuFiles, name);
 			menu.mv(filename);
 			grub.meals[index].menu = name;
 
