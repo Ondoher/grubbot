@@ -129,10 +129,10 @@ class VoteModel extends MongoModel {
 		return Q(totals);
 	}
 
-	getResultMonth (date, pod)
+	getResultRange (start, stop, pod)
 	{
 		this.grubModel = new GrubModel();
-		return this.grubModel.getMonth(date, pod)
+		return this.grubModel.getRange(start, stop, pod)
 			.then(this.getMeals.bind(this))
 			.then(this.getAllFrom.bind(this))
 			.then(this.summarize.bind(this));

@@ -13,8 +13,7 @@ class BotRegistry {
 		this.interval = setInterval(this.tick.bind(this), 10 * 1000);
 		this.running = [];
 
-		var date = new Date();
-		date.setHours(0, 0, 0, 0);
+		var date = new Date().getTime();
 
 		this.date = date;
 	}
@@ -46,28 +45,38 @@ class BotRegistry {
 		return Q.all(promises);
 	}
 
-	run ()
+	run (start, stop)
 	{
-		var date = new Date();
-		date.setHours(0, 0, 0, 0);
+		console.log('run', start, stop)
+		if (!start)
+		{
+			var date = new Date();
+			date.setHours(date.getHours(), 0, 0, 0);
+			stop = date.getTime();
+			start = stop - 24 * 60 * 30 * 1000;
 
-		this.date = date;
+			console.log('---', start, stop);
+		}
 
-		return this.grubModel.getAll(date)
+		return this.grubModel.getAll(start, stop)
 			.then(function(bots)
 			{
-				console.log('running', bots);
-				this.running = bots;
+				this.running = this.running.concat(bots);
+				console.log('running', JSON.stringify(this.running, null, '  '));
+				this.date = stop;
 			}.bind(this));
 	}
+
+	ignore () {}
 
 	start ()
 	{
 		return this.auth()
+			.then(this.ignore.bind(this))
 			.then(this.run.bind(this))
 	}
 
-	sendNotification (pod, meal)
+	sendNotification (pod, meal, date)
 	{
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
@@ -87,7 +96,7 @@ class BotRegistry {
 		return true;
 	}
 
-	sendStart (pod, meal)
+	sendStart (pod, meal, date)
 	{
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
@@ -106,7 +115,7 @@ class BotRegistry {
 				type: 'com.symphony.grubbot.feedback',
 				version: 1.0,
 				id: meal.id,
-				date: date.getTime(),
+				date: date,
 				start: meal.start,
 				end: meal.end,
 				venue: meal.venue,
@@ -126,12 +135,10 @@ class BotRegistry {
 		return true;
 	}
 
-	sendEnd (pod, meal)
+	sendEnd (pod, meal, date)
 	{
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
-		var date = new Date(meal.start);
-		date.setHours(0,0,0,0);
 
 		var attachment = {
 			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
@@ -146,7 +153,7 @@ class BotRegistry {
 				type: 'com.symphony.grubbot.feedback',
 				version: 1.0,
 				id: meal.id,
-				date: date.getTime(),
+				date: date,
 				start: meal.start,
 				end: meal.end,
 				venue: meal.venue,
@@ -164,11 +171,14 @@ class BotRegistry {
 </messageML>
 `;
 		api.message.v4.send(threadId, message, data, attachment).done();
+
+// !Pending: remove if last meal has been sent
 		return true;
 	}
 
 	update ()
 	{
+		this.running = [];
 		return this.run();
 	}
 
@@ -176,9 +186,11 @@ class BotRegistry {
 	{
 		var now = Date.now();
 		var date = new Date();
-		date.setHours(0, 0, 0, 0);
+		date.setHours(date.getHours(), 0, 0, 0);
 
-		if (this.date.getTime() !== date.getTime()) return this.run();
+	// every hour get new days
+		console.log('running...', this.date, date.getTime());
+		if (this.date !== date.getTime()) return this.run(date, date);
 
 		this.running.each(function(bot)
 		{
@@ -188,9 +200,9 @@ class BotRegistry {
 
 			bot.meals.each(function(meal)
 			{
-				if (bot.lastSent < meal.notification && meal.notification <= now) sent = this.sendNotification(bot.pod, meal);
-				if (bot.lastSent < meal.start && meal.start <= now) sent = this.sendStart(bot.pod, meal);
-				if (bot.lastSent < meal.end && meal.end <= now) sent = this.sendEnd(bot.pod, meal);
+				if (bot.lastSent < meal.notification && meal.notification <= now) sent = this.sendNotification(bot.pod, meal, bot.date);
+				if (bot.lastSent < meal.start && meal.start <= now) sent = this.sendStart(bot.pod, meal, bot.date);
+				if (bot.lastSent < meal.end && meal.end <= now) sent = this.sendEnd(bot.pod, meal, bot.date);
 
 				if (sent)
 				{

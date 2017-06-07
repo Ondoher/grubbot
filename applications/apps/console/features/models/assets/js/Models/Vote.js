@@ -7,9 +7,9 @@ Package('Console.Models', {
 			this.parent();
 		},
 
-		getMonthResult : function(date)
+		getRangeResult : function(start, stop)
 		{
-			return CONSOLE.service.call(CONSOLE.urls.getVoteMonthResult, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
+			return CONSOLE.service.call(CONSOLE.urls.getVoteRangeResult, {start: start, stop: stop, pod: CONSOLE.pod}, 'POST')
 				.then(function(data) {
 					if (data && !data.success) return Q.reject(new Error(data.error));
 

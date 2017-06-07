@@ -19,10 +19,15 @@ Package('Console.Controllers', {
 				}.bind(this));
 		},
 
-		loadMonth : function(month)
+		getMonth : function(date)
 		{
-			var monthStart = new Date(month.getFullYear(), month.getMonth(), 1);
-			var monthStop = new Date(month.getFullYear(), month.getMonth(), month.get('lastdayofmonth'));
+			var start = new Date(date.getFullYear(), date.getMonth(), 1);
+			var stop = new Date(date.getFullYear(), date.getMonth(), date.get('lastdayofmonth'));
+
+			start.setHours(0, 0, 0, 0);
+			stop.setHours(0, 0, 0, 0);
+
+			return {start: start.getTime(), stop: stop.getTime()}
 		},
 
 		onLoad : function()
@@ -39,11 +44,12 @@ Package('Console.Controllers', {
 
 		onShow : function()
 		{
-			this.grubModel.getMonth(this.current)
+			var range = this.getMonth(this.current);
+			this.grubModel.getRange(range.start, range.stop)
 				.then(function(month)
 				{
 					this.month = month;
-					this.voteModel.getMonthResult(this.current)
+					this.voteModel.getRangeResult(range.start, range.stop)
 						.then(function(result)
 						{
 							this.view.draw(this.current, this.month, result);

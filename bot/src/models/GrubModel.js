@@ -11,9 +11,7 @@ class GrubModel extends MongoModel {
 
 	get (date, pod)
 	{
-		date = new Date(date);
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
+		var ts = date;
 		return this.getCollection('grub')
 			.then(this.find.bind(this, {'date': ts, pod: pod}))
 			.then(function(result)
@@ -23,26 +21,21 @@ class GrubModel extends MongoModel {
 			}.bind(this));
 	}
 
-	getAll (date)
+	getAll (start, stop)
 	{
-		date = new Date(date);
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
+		console.log('getAll', new Date(start), new Date(stop))
 		return this.getCollection('grub')
-			.then(this.find.bind(this, {'date': ts}))
+			.then(this.find.bind(this, {'date': {$gt: start, $lte: stop}}))
 			.then(function(result)
 			{
 				return result;
 			}.bind(this));
 	}
 
-	getMonth (date, pod)
+	getRange (start, stop, pod)
 	{
-		date = new Date(date);
-		var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
-		var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getTime();
 		return this.getCollection('grub')
-			.then(this.find.bind(this, {'date': {$gte : firstDay, $lte: lastDay}, pod: pod}))
+			.then(this.find.bind(this, {'date': {$gte : start, $lte: stop}, pod: pod}))
 			.then(function(result)
 			{
 				return result;

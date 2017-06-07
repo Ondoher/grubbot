@@ -33,11 +33,12 @@ class RpcGrub extends RpcHandler {
 			}.bind(this));
 	}
 
-	getMonth (channel, data)
+	getRange (channel, data)
 	{
-		var date = data.date;
+		var start = data.start;
+		var stop = data.stop;
 		var pod = data.pod;
-		return this.grubModel.getMonth(date, pod)
+		return this.grubModel.getRange(start, stop, pod)
 			.then(function(grub)
 			{
 				return grub;

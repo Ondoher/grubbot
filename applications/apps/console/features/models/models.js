@@ -14,11 +14,11 @@ module.exports = function(req, res, app)
 
 	models.addUrl('createGrub', '/console/services/grub/create');
 	models.addUrl('getGrub', '/console/services/grub/get');
-	models.addUrl('getGrubMonth', '/console/services/grub/getMonth');
+	models.addUrl('getGrubRange', '/console/services/grub/getRange');
 	models.addUrl('updateGrub', '/console/services/grub/update');
 	models.addUrl('updateGrubMenu', '/console/services/grub/updateMenu');
 
-	models.addUrl('getVoteMonthResult', '/grubbot/services/vote/resultMonth');
+	models.addUrl('getVoteRangeResult', '/grubbot/services/vote/resultRange');
 
 	return Q(app);
 }

@@ -18,7 +18,7 @@ GrubService = new Class({
 	{
 		this.export('create', module);
 		this.export('get', module);
-		this.export('getMonth', module);
+		this.export('getRange', module);
 		this.export('update', module);
 		this.export('updateMenu', module);
 		this.export('downloadMenu', module);
@@ -59,19 +59,12 @@ GrubService = new Class({
 
 	create : function(req, res)
 	{
-		var date = new Date(parseInt(req.body.date, 10));
+		var ts = parseInt(req.body.date, 10);
 		var pod = req.body.pod;
+		var index = parseInt(req.body.index, 10);
+		var meal = req.body.meal ? JSON.parse(req.body.meal) : false;
 		var menu = req.files && req.files.menu;
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
 
-		if (menu)
-		{
-			var name = btoa(uuid.v4()) + '.pdf';
-			var filename = path.join(CONFIG.console.menuFiles, name);
-			menu.mv(filename);
-
-		}
 		return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
 			.then(function(grub)
 			{
@@ -81,11 +74,19 @@ GrubService = new Class({
 					meals: []
 				};
 
-				if (menu)
+				if (meal)
 				{
-					if (grub.meals.length === 0) grub.meals.push(this.getLunch(ts, name))
-					else if (grub.meals.length === 1) grub.meals.push(this.getDinner(ts, name))
-					else grub.meals.push(this.getDinner(ts, name))
+					meal.id = btoa(uuid.v4()),
+					grub.meals.push(meal);
+				}
+
+				if (meal && menu)
+				{
+					var index = grub.meals.length - 1;
+					var name = btoa(uuid.v4()) + '.pdf';
+					var filename = path.join(CONFIG.console.menuFiles, name);
+					menu.mv(filename);
+					grub.meals[index].menu = name;
 				}
 
 				return SERVER.ask('grub', 'grub', 'save', grub)
@@ -105,7 +106,6 @@ GrubService = new Class({
 		if (menu)
 		{
 			var name = btoa(uuid.v4()) + '.pdf';
-			console.log('----CONFIG.console.menuFiles',  CONFIG.console.menuFiles);
 			var filename = path.join(CONFIG.console.menuFiles, name);
 			menu.mv(filename);
 			grub.meals[index].menu = name;
@@ -124,10 +124,8 @@ GrubService = new Class({
 
 	get : function(req, res)
 	{
-		var date = new Date(parseInt(req.body.date, 10));
+		var ts = parseInt(req.body.date, 10);
 		var pod = req.body.pod;
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
 
 		return SERVER.ask('grub', 'grub', 'get', {date: ts, pod: pod})
 			.then(function(grub)
@@ -137,19 +135,17 @@ GrubService = new Class({
 
 	},
 
-	getMonth : function(req, res)
+	getRange : function(req, res)
 	{
-		var date = new Date(parseInt(req.body.date, 10));
+		var start = parseInt(req.body.start, 10);
+		var stop = parseInt(req.body.stop, 10);
 		var pod = req.body.pod;
-		date.setHours(0, 0, 0, 0);
-		var ts = date.getTime();
 
-		return SERVER.ask('grub', 'grub', 'getMonth', {date: ts, pod: pod})
+		return SERVER.ask('grub', 'grub', 'getRange', {start: start, stop: stop, pod: pod})
 			.then(function(grub)
 			{
 				return {success: true, result: grub};
 			}.bind(this));
-
 	},
 
 	update : function(req, res)

@@ -5,14 +5,50 @@ Package('Console.Models', {
 		initialize : function()
 		{
 			this.parent();
+			this.grubs = {};
 		},
 
-		create : function(date, file)
+		getLunch : function(date)
 		{
+			return {
+				type: 'Lunch',
+				notification: date + 9 * 60 * 60 * 1000,
+				start: date + 13 * 60 * 60 * 1000,
+				end: date + 17 * 60 * 60 * 1000,
+			};
+		},
+
+		getDinner : function(date)
+		{
+			return {
+				type: 'Dinner',
+				notification: date + 15 * 60 * 60 * 1000,
+				start: date + 18 * 60 * 60 * 1000,
+				end: date + 23 * 60 * 60 * 1000,
+			};
+		},
+
+		newMeal : function(date)
+		{
+			var grub = this.grubs[date];
+			if (!grub) return this.getLunch(date);
+
+			if (grub.meals.length === 0) return this.getLunch(grub.date);
+			else return this.getDinner(grub.date);
+		},
+
+		create : function(date, file, meal)
+		{
+			date.setHours(0, 0, 0, 0);
+
 			var fd = new FormData();
+
+			if (file && !meal) meal = this.newMeal(date.getTime());
+
 			fd.append('date', date.getTime());
 			fd.append('pod', CONSOLE.pod);
-			fd.append('menu', file);
+			if (meal) fd.append('meal', JSON.stringify(meal));
+			if (file) fd.append('menu', file);
 
 			var deferred = Q.defer();
 			var type = 'json';
@@ -61,18 +97,23 @@ Package('Console.Models', {
 					if (data && !data.success) return Q.reject(new Error(data.error));
 
 					grub = data.result;
+					this.grubs[grub.date] = grub;
 					return grub
 				}.bind(this));
 		},
 
-		getMonth : function(date)
+		getRange : function(start, stop)
 		{
-			return CONSOLE.service.call(CONSOLE.urls.getGrubMonth, {date: date.getTime(), pod: CONSOLE.pod}, 'POST')
+			return CONSOLE.service.call(CONSOLE.urls.getGrubRange, {start: start, stop: stop, pod: CONSOLE.pod}, 'POST')
 				.then(function(data) {
 					if (data && !data.success) return Q.reject(new Error(data.error));
 
-					grub = data.result;
-					return grub
+					grubs = data.result;
+					grubs.each(function(grub)
+					{
+						this.grubs[grub.date] = grub;
+					}, this);
+					return grubs;
 				}.bind(this));
 		},
 
@@ -83,6 +124,7 @@ Package('Console.Models', {
 					if (data && !data.success) return Q.reject(new Error(data.error));
 
 					grub = data.result;
+					this.grubs[grub.date] = grub;
 					return grub
 				}.bind(this));
 		},
@@ -136,7 +178,10 @@ Package('Console.Models', {
 
 		onAjaxSuccess : function(deferred, response, status, xhr)
 		{
-			deferred.resolve(response.result);
+			grub = response.result;
+			this.grubs[grub.date] = grub;
+
+			deferred.resolve(grub);
 		},
 
 		onAjaxError : function(deferred, jqXHR, textStatus, errorThrown)
@@ -144,8 +189,6 @@ Package('Console.Models', {
 			console.log('ajaxError', jqXHR, textStatus, errorThrown);
 			deferred.reject(jqXHR);
 		}
-
-
 	})
 });
 
