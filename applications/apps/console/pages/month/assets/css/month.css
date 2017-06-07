@@ -21,7 +21,7 @@ h1{
 	font-size: 1.2rem;
 	text-transform: uppercase;
 	font-weight: 300;
-	color: rgba(0,0,0,0.1);
+	color: rgba(0,0,0,0.87);
 }
 .month-day {
 	float: left;
