@@ -21,7 +21,7 @@ var corpTestThreadId = base64EncodeUrl('QBsRAH+GVNvyvRsK9AVufX///qOCFrt8dA==');
 
 module.exports = {
 	bots: {
-/*
+/**/
 		'1045': {
 			keyUrl: 'https://' + corpApi + ':8444/keyauth',
 			sessionUrl: 'https://' + corpApi + ':8444/sessionauth',
@@ -48,7 +48,7 @@ module.exports = {
 			},
 			threadId: n2PrivateThreadId,
 		},
-/**/
+/*
 		'131' : {
 			keyUrl: 'https://' + nexusApi + ':8444/keyauth',
 			sessionUrl: 'https://' + nexusApi + ':8444/sessionauth',

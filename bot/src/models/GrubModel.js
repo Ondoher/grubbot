@@ -23,9 +23,9 @@ class GrubModel extends MongoModel {
 
 	getAll (start, stop)
 	{
-		console.log('getAll', new Date(start), new Date(stop))
+		console.log('getAll', start, stop)
 		return this.getCollection('grub')
-			.then(this.find.bind(this, {'date': {$gt: start, $lte: stop}}))
+			.then(this.find.bind(this, {'date': {$gte: start, $lte: stop}}))
 			.then(function(result)
 			{
 				return result;
