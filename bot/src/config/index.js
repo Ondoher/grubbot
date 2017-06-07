@@ -6,7 +6,8 @@ var nexus = 'nexus.symphony.com';
 var nexusApi = 'nexus-api.symphony.com';
 var nexus2 = 'nexus2.symphony.com';
 var nexus2Api = 'nexus2-api.symphony.com';
-nexus = 'nexus-dev-ause1-all.symphony.com';
+nexusApi = 'nexus-dev-ause1-all.symphony.com';
+//nexus = 'nexus-dev-ause1-all.symphony.com';
 
 function base64EncodeUrl(str){
 	return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
@@ -34,7 +35,7 @@ module.exports = {
 			},
 			threadId: corpTestThreadId,
 		},
-*/
+/*
 		'130' : {
 			keyUrl: 'https://' + nexus2 + ':8444/keyauth',
 			sessionUrl: 'https://' + nexus2 + ':8444/sessionauth',
@@ -47,10 +48,10 @@ module.exports = {
 			},
 			threadId: n2PrivateThreadId,
 		},
-/*
+/**/
 		'131' : {
-			keyUrl: 'https://' + nexus + ':8444/keyauth',
-			sessionUrl: 'https://' + nexus + ':8444/sessionauth',
+			keyUrl: 'https://' + nexusApi + ':8444/keyauth',
+			sessionUrl: 'https://' + nexusApi + ':8444/sessionauth',
 			agentUrl: 'https://' + nexus + ':443/agent',
 			podUrl: 'https://' + nexus + ':443/pod',
 			auth: {
@@ -58,9 +59,9 @@ module.exports = {
 				key: fs.readFileSync(__dirname + '/certs/bot.user1-key.pem', {encoding: 'utf-8'}),
 				passphrase: 'changeit',
 			},
-			threadId: n2PrivateThreadId,
+			threadId: n1CrazyThreadId,
 		}
-*/
+/**/
 
 	},
 	menuFiles: __dirname + '/../../../menus',
