@@ -38,8 +38,9 @@ label{
 	align-self: center;
 }
 .menu-iframe {
-	min-width: 700px;
-	min-height: 500px
+	max-width: 700px;
+	min-height: 500px;
+	width: 100%;
 }
 
 .menu-table  {
@@ -83,7 +84,9 @@ label{
 .no-details .show-no-details {display: block}
 
 
-
+.dark .tempo-input-standard{
+	color: white;
+}
 .dark .day-details{
 	border-top: 1px rgba(255,255,255,0.1) solid;
 }
@@ -96,4 +99,8 @@ label{
 .dark .drop-zone{
 	background: rgba(255,255,255,0.03);
 	border: solid rgba(255,255,255,0.1) 3px;
+	color: white;
+}
+.dark .menu-table td{
+	color: white;
 }

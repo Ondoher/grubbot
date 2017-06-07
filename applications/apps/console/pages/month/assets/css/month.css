@@ -21,6 +21,7 @@ h1{
 	font-size: 1.2rem;
 	text-transform: uppercase;
 	font-weight: 300;
+	color: rgba(0,0,0,0.1);
 }
 .month-day {
 	float: left;
@@ -51,11 +52,14 @@ h1{
 }
 .dark .month-day {
 	border: 1px rgba(255,255,255,0.1) solid;
-	color: rgba(255,255,255,0.87);
+	color: white;
 }
 .dark .month-week:first-child{
 	border: 1px rgba(255,255,255,0.1) solid;
 }
 .dark .month-day:not(.empty):hover{
 	background: rgba(255,255,255,0.03);
+}
+.dark .month-name {
+	color: white;
 }
