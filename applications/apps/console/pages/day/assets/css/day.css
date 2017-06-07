@@ -76,9 +76,24 @@ label{
 	border-radius: 3px;
 	margin: 10px 5px;
 }
-
 .hide-no-details {display: flex}
 .no-details .hide-no-details {display: none}
 
 .show-no-details {display: none}
 .no-details .show-no-details {display: block}
+
+
+
+.dark .day-details{
+	border-top: 1px rgba(255,255,255,0.1) solid;
+}
+.dark .current.meal-item {
+	background: rgba(255,255,255,0.05);
+}
+.dark .meal-item:hover{
+	background: rgba(255,255,255,0.03);
+}
+.dark .drop-zone{
+	background: rgba(255,255,255,0.03);
+	border: solid rgba(255,255,255,0.1) 3px;
+}
