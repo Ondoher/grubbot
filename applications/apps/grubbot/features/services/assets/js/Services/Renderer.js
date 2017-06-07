@@ -84,6 +84,7 @@ Package('Grubbot.Services', {
 						data : {
 							cmd: 'vote',
 							vote: 1,
+							entity: entityData,
 							instanceId: instanceId,
 						}
 					},
