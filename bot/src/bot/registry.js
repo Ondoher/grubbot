@@ -192,7 +192,7 @@ class BotRegistry {
 
 	// every hour get new days
 		console.log('running...', this.date, date.getTime());
-		if (this.date !== date.getTime()) return this.run(date, date);
+		if (this.date !== date.getTime()) return this.run(date.getTime(), date.getTime());
 
 		this.running.each(function(bot)
 		{
