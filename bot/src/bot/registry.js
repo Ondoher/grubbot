@@ -53,7 +53,7 @@ class BotRegistry {
 			var date = new Date();
 			date.setHours(date.getHours(), 0, 0, 0);
 			stop = date.getTime();
-			start = stop - (24 * 60 * 60 * 1000);
+            start = stop - (36 * 60 * 60 * 1000);
 
 			console.log('---', start, stop, new Date(start), new Date(stop));
 		}
