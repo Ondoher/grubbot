@@ -74,6 +74,9 @@ Package('Grubbot.Services', {
 			var result = {
 				template: this.votingXml,
 				data: {
+					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
+					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
+					accent: 'tempo-bg-color--green',
 					type: entityData.mealType,
 					venue: entityData.venue,
 					end: new Date(entityData.end).format('%l:%M %p'),
@@ -171,6 +174,9 @@ Package('Grubbot.Services', {
 			var result = {
 				template: this.closedXml,
 				data: {
+					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
+					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
+					accent: 'tempo-bg-color--green',
 					stars: stars,
 				},
 			};
@@ -185,6 +191,9 @@ Package('Grubbot.Services', {
 			var result = {
 				template: this.votedXml,
 				data: {
+					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
+					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
+					accent: 'tempo-bg-color--green',
 					stars: stars,
 				},
 			};

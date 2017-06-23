@@ -18,10 +18,11 @@ var n2CrazyThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); /
 var nexusThreadId = base64EncodeUrl('pnTN05AkpGivKFCNzEWkk3///qTgBnUtdA=='); //nexus2
 var n2PrivateThreadId = base64EncodeUrl('DxbnV8++z3vny/SIX7NqGX///qPFMGuYdA==');
 var corpTestThreadId = base64EncodeUrl('QBsRAH+GVNvyvRsK9AVufX///qOCFrt8dA==');
+var corpPAThreadId = base64EncodeUrl('lX1hwfmQ+AK/k/a/BB0y2n///q2+0KfbdA==');
 
 module.exports = {
 	bots: {
-/**/
+/*
 		'1045': {
 			keyUrl: 'https://' + corpApi + ':8444/keyauth',
 			sessionUrl: 'https://' + corpApi + ':8444/sessionauth',
@@ -33,7 +34,7 @@ module.exports = {
 				key: fs.readFileSync(__dirname + '/certs/grub.bot-key.pem', {encoding: 'utf-8'}),
 				passphrase: 'changeit',
 			},
-			threadId: corpTestThreadId,
+			threadId: corpPaThreadId,
 		},
 /*
 		'130' : {
@@ -48,7 +49,7 @@ module.exports = {
 			},
 			threadId: n2PrivateThreadId,
 		},
-/*
+/**/
 		'131' : {
 			keyUrl: 'https://' + nexusApi + ':8444/keyauth',
 			sessionUrl: 'https://' + nexusApi + ':8444/sessionauth',
@@ -62,7 +63,6 @@ module.exports = {
 			threadId: n1CrazyThreadId,
 		}
 /**/
-
 	},
 	menuFiles: __dirname + '/../../../menus',
 }
