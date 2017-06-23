@@ -34,7 +34,7 @@ module.exports = {
 				key: fs.readFileSync(__dirname + '/certs/grub.bot-key.pem', {encoding: 'utf-8'}),
 				passphrase: 'changeit',
 			},
-			threadId: corpPaThreadId,
+			threadId: corpPAThreadId,
 		},
 /*
 		'130' : {
