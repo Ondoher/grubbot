@@ -47,7 +47,9 @@ Package('Grubbot.Services', {
 
 					GRUBBOT.events.fire('start');
 				}.bind(this))
-				.done();
+				.fail(function(e) {
+					console.log(e);
+				}.bind(this));
 		},
 	})
 });

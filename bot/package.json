@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Ondoher/grubbot#readme",
   "dependencies": {
     "base64url": "^2.0.0",
+    "html-entities": "^1.2.1",
     "mongodb": "^2.2.24",
     "mootools": "^1.5.2",
     "mootools-more": "^1.5.2",

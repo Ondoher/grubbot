@@ -4,6 +4,7 @@ var config = require('../config');
 var GrubModel = require('../models/GrubModel');
 var symphonyApi = require('symphony-api');
 var path = require('path');
+var Entities = require('html-entities').XmlEntities;
 
 class BotRegistry {
 	constructor ()
@@ -53,7 +54,7 @@ class BotRegistry {
 			var date = new Date();
 			date.setHours(date.getHours(), 0, 0, 0);
 			stop = date.getTime();
-            start = stop - (36 * 60 * 60 * 1000);
+			start = stop - (36 * 60 * 60 * 1000);
 
 			console.log('---', start, stop, new Date(start), new Date(stop));
 		}
@@ -63,7 +64,7 @@ class BotRegistry {
 			{
 				console.log('bots', JSON.stringify(bots, null, '  '));
 				this.running = this.running.concat(bots);
-				console.log('running', JSON.stringify(this.running, null, '  '));
+				console.log('running', JSON.stringify(this.running, null, '	 '));
 				this.date = stop;
 			}.bind(this));
 	}
@@ -81,6 +82,9 @@ class BotRegistry {
 	{
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
+		var entities = new Entities();
+		var type = entities.encode(meal.type);
+		var venue = entities.encode(meal.venue);
 		var attachment = {
 			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
 			options: {
@@ -90,9 +94,10 @@ class BotRegistry {
 		}
 		var message = `
 <messageML>
-	Today's ${meal.type} will be from ${meal.venue}. <hash tag="grubon"/>
+	Today's ${type} will be from ${venue}. <hash tag="grubon"/>
 </messageML>
 `;
+
 		api.message.v4.send(threadId, message, {}, attachment);
 		return true;
 	}
@@ -101,6 +106,9 @@ class BotRegistry {
 	{
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
+		var entities = new Entities();
+		var type = entities.encode(meal.type).toLowerCase();
+		var venue = entities.encode(meal.venue);
 		var attachment = {
 			value: fs.createReadStream(path.join(config.menuFiles, meal.menu)),
 			options: {
@@ -128,7 +136,7 @@ class BotRegistry {
 <messageML>
 	<hash tag="grubvote"/>
 	<div class="entity" data-entity-id="vote">
-		<span>Install the Grubbot application to provide feedback on the latest meal.</span>
+		<span>Install the Grubbot application to provide feedback on {type} from {venue}.</span>
 	</div>
 </messageML>
 `;

@@ -59,31 +59,33 @@ Package('Console.Views', {
 				var thisDay = this.month[parseInt(cur.getTime(), 10)];
 				if (thisDay)
 				{
-					var mealList = [];
+					var mealContainer = dayTemplate.find('.day-meals');
+					mealContainer.empty();
 					thisDay.meals.each(function(meal)
 					{
+						var mealTemplate = SAPPHIRE.templates.get('month-day-meal');
 						var rating = this.ratings[meal.id];
 						var href = CONSOLE.baseUrl + 'console/services/grub/downloadMenu?name=' + meal.menu;
 
-						var mealStr = '<a class="tempo-text-color--link" href="' + href + '">' +
-							$('<span>').text(meal.venue || meal.type).text() + '</a>';
+						mealTemplate.find('#month-day-meal-name').text(meal.venue || meal.type);
+						mealTemplate.find('#month-day-meal-name').attr('href', href);
+						mealTemplate.find('#month-day-meal-name').click(this.onLinkClick.bind(this, href));
 
 						if (rating) {
 							var stars = this.getStars(rating.average);
-							mealStr += '<br/>' + stars;
+							var count = rating.count;
+							var average = Math.round(rating.average * 100) / 100;
+
+							mealTemplate.find('#meal-stars').html(stars);
+							mealTemplate.find('#meal-stats').text('' + average);
+							mealTemplate.find('#meal-count').text('' + count)
 						}
-
-						mealList.push(mealStr);
+						else
+						{
+							mealTemplate.find('#meal-info').css('display', 'none');
+						}
+						mealContainer.append(mealTemplate);
 					}, this);
-
-					mealList = mealList.join('<br/>');
-					dayTemplate.find('.day-meals').html(mealList);
-					var links = dayTemplate.find('.day-meals a');
-					links.each(function(idx, el)
-					{
-						var el = $(el);
-						el.click(this.onLinkClick.bind(this, el.attr('href')));
-					}.bind(this));
 				}
 			}
 

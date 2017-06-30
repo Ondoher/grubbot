@@ -59,7 +59,6 @@ Package('Grubbot.Services', {
 
 		action: function(data)
 		{
-			console.log('action', data);
 			this.voteModel.vote(data.entity.id, GRUBBOT.userId, data.vote)
 				.then(function(response)
 				{
@@ -77,7 +76,7 @@ Package('Grubbot.Services', {
 					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
 					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
 					accent: 'tempo-bg-color--green',
-					type: entityData.mealType,
+					type: entityData.mealType.toLowerCase(),
 					venue: entityData.venue,
 					end: new Date(entityData.end).format('%l:%M %p'),
 					onestar: {
@@ -174,6 +173,8 @@ Package('Grubbot.Services', {
 			var result = {
 				template: this.closedXml,
 				data: {
+					type: entityData.mealType.toLowerCase(),
+					venue: entityData.venue,
 					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
 					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
 					accent: 'tempo-bg-color--green',
@@ -189,6 +190,7 @@ Package('Grubbot.Services', {
 			var average = voteData.result.average;
 			var stars = this.getStars(average);
 			var result = {
+
 				template: this.votedXml,
 				data: {
 					card: {icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg', accent: 'tempo-bg-color--green'},
@@ -208,8 +210,6 @@ Package('Grubbot.Services', {
 				.then(function(response)
 				{
 					var result;
-
-					console.log('vote data', response);
 
 					if (entityData.end < Date.now()) result = this.renderClosed(entityData, response);
 					else if (!response.vote) result = this.renderVoting(entityData, instanceId);

@@ -1,6 +1,6 @@
 <div id="month-page" class="page month-page">
 	<div class="month-header-container">
-		<h1>Pick a day</h1>	
+		<h1>Pick a day</h1>
 		<div class="month-header">
 			<span id="month-prev" class="month-prev tempo-btn tempo-btn--flat">Previous</span>
 			<span id="month-name" class="month-name"></span>
@@ -11,7 +11,14 @@
 	<div id="month-week" class="month-week template clearfix"></div>
 	<div id="month-day" class="month-day template">
 		<div class="date tempo-text-color--normal"></div>
-		<div class="day-meals"></div>
+		<div class="day-meals">
+		</div>
 		<div class="menu-drop"></div>
+	</div>
+	<div id="month-day-meal" class="template">
+		<a id="month-day-meal-name" class="tempo-text-color--link" href="javascript:void(0)"></a>
+		<div id="meal-info">
+			<span id="meal-stars"></span><br/>(<span id="meal-stats"></span>)<br/><span id="meal-count"></span> voters
+		</div>
 	</div>
 </div>
