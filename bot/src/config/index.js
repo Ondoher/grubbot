@@ -22,7 +22,7 @@ var corpPAThreadId = base64EncodeUrl('lX1hwfmQ+AK/k/a/BB0y2n///q2+0KfbdA==');
 
 module.exports = {
 	bots: {
-/*
+/**/
 		'1045': {
 			keyUrl: 'https://' + corpApi + ':8444/keyauth',
 			sessionUrl: 'https://' + corpApi + ':8444/sessionauth',
@@ -36,7 +36,7 @@ module.exports = {
 			},
 			threadId: corpPAThreadId,
 		},
-/**/
+/*
 		'130' : {
 			keyUrl: 'https://' + nexus2 + ':8444/keyauth',
 			sessionUrl: 'https://' + nexus2 + ':8444/sessionauth',
