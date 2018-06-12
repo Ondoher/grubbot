@@ -1,6 +1,6 @@
 Package('Grubbot.Services', {
 	Renderer : new Class({
-        implements : ['render', 'action', 'reaped'],
+		implements : ['render', 'action', 'reaped'],
 
 		initialize : function()
 		{
@@ -223,7 +223,7 @@ Package('Grubbot.Services', {
 						setTimeout(function()
 						{
 							this.track({instanceId: instanceId, entityData: entityData});
-                        }.bind(this), 500);
+						}.bind(this), 500);
 
 					return result;
 				}.bind(this));
@@ -249,9 +249,9 @@ Package('Grubbot.Services', {
 				}.bind(this));
 		},
 
-        reaped : function(what, type, id, messageId) {
-            this.untrack(id);
-        },
+		reaped : function(what, type, id, messageId) {
+			this.untrack(id);
+		},
 
 		onStart : function(done)
 		{
