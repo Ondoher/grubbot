@@ -8,7 +8,7 @@ module.exports = function(req, res, app)
 {
 	var services = new Feature(app, '/grubbot/features/services/');
 
-	services.addJS(['assets/js/Services/Bootstrap.js', 'assets/js/Services/Renderer.js']);
+	services.addJS(['assets/js/Services/Bootstrap.js', 'assets/js/Services/Renderer.js', 'assets/js/Services/Navigation.js']);
 	services.addTemplates('templates/survey.html');
 	services.addVariable('votingTemplate', votingTemplate);
 	services.addVariable('votedTemplate', votedTemplate);

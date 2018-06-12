@@ -61,6 +61,9 @@ GrubService = new Class({
 	{
 		var ts = parseInt(req.body.date, 10);
 		var pod = req.body.pod;
+
+        console.log('create, req.body', req.body);
+
 		var index = parseInt(req.body.index, 10);
 		var meal = req.body.meal ? JSON.parse(req.body.meal) : false;
 		var menu = req.files && req.files.menu;
@@ -137,6 +140,7 @@ GrubService = new Class({
 
 	getRange : function(req, res)
 	{
+        console.log('getRange, req.body', req.body);
 		var start = parseInt(req.body.start, 10);
 		var stop = parseInt(req.body.stop, 10);
 		var pod = req.body.pod;

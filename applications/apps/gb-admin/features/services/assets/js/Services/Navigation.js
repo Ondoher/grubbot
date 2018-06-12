@@ -18,7 +18,7 @@ Package('GbAdmin.Services', {
 				canFloat: true
 			};
 
-			this.modulesService.show('gba', {title: 'Grubbot Admin Console', icon: GB_ADMIN.baseUrl + 'grubbot/assets/images/grubbot-small.png'}, 'sgc:controller', GB_ADMIN.baseUrl + 'console', options);
+			this.modulesService.show('gba', {title: 'Grubbot Admin Console', icon: GB_ADMIN.baseUrl + 'grubbot/assets/images/grubbot-small.png'}, this.serviceName, GB_ADMIN.baseUrl + 'console', options);
 		},
 
 		onStart : function(done)

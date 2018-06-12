@@ -1,0 +1,26 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "gb-admin-prod",
+      "name": "GbAdmin Test",
+      "blurb": "Do the GbAdmin thing",
+      "publisher": "",
+      "url": "https://apps.uber-geek.com/gb-admin",
+      "domain": ".uber-geek.com",
+      "visible": true,
+      "icon":"https://apps.uber-geek.com/gb-admin/assets/images/app.png"
+    },
+    {
+      "type": "sandbox",
+      "id": "grubbot-prod",
+      "name": "Grubbot Test",
+      "blurb": "Do the Grubbot thing",
+      "publisher": "",
+      "url": "https://apps.uber-geek.com/grubbot",
+      "domain": ".uber-geek.com",
+      "visible": true,
+      "icon":"https://apps.uber-geek.com/grubbot/assets/images/app.png"
+    }
+  ]
+}

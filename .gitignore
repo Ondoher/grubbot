@@ -37,3 +37,7 @@ jspm_packages
 .node_repl_history
 
 menus
+/bot/src/config/certs/bot.user1-cert.pem
+/bot/src/config/certs/bot.user1-key.pem
+/bot/src/config/certs/grub.bot-cert.pem
+/bot/src/config/certs/grub.bot-key.pem

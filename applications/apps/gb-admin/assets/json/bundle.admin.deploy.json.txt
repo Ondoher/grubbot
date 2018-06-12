@@ -1,0 +1,15 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "gb-admin",
+      "name": "Grubbot Admin Console",
+      "blurb": "Adminitrative application for maintaining Grubbot menus",
+      "publisher": "Symphony",
+      "url": "https://apps.uber-geek.com/gb-admin",
+      "domain": ".uber-geek.com",
+      "visible": true,
+      "icon":"https://apps.uber-geek.com/grubbot/assets/images/grubbot.png"
+    }
+  ]
+}

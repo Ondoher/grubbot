@@ -8,6 +8,8 @@ Package('Console.Views', {
 			this.page = $('#month-page');
 			this.page.find('#month-prev').click(this.fire.bind(this, 'prev'));
 			this.page.find('#month-next').click(this.fire.bind(this, 'next'));
+
+			this.page.find('.remove').remove();
 			this.month = {};
 		},
 

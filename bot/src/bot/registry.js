@@ -48,23 +48,18 @@ class BotRegistry {
 
 	run (start, stop)
 	{
-		console.log('run', start, stop)
 		if (!start)
 		{
 			var date = new Date();
 			date.setHours(date.getHours(), 0, 0, 0);
 			stop = date.getTime();
 			start = stop - (36 * 60 * 60 * 1000);
-
-			console.log('---', start, stop, new Date(start), new Date(stop));
 		}
 
 		return this.grubModel.getAll(start, stop)
 			.then(function(bots)
 			{
-				console.log('bots', JSON.stringify(bots, null, '  '));
 				this.running = this.running.concat(bots);
-				console.log('running', JSON.stringify(this.running, null, '	 '));
 				this.date = stop;
 			}.bind(this));
 	}
@@ -146,7 +141,6 @@ class BotRegistry {
 
 	sendEnd (pod, meal, date)
 	{
-		console.log('sendEnd', pod, meal, date);
 		var api = config.bots[pod].api;
 		var threadId = config.bots[pod].threadId;
 
@@ -199,7 +193,6 @@ class BotRegistry {
 		date.setHours(date.getHours(), 0, 0, 0);
 
 	// every hour get new days
-		console.log('running...', this.date, date.getTime());
 		if (this.date !== date.getTime()) return this.run(date.getTime(), date.getTime());
 
 		this.running.each(function(bot)

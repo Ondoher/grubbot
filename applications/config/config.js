@@ -1,15 +1,17 @@
+fs = require('fs');
+
 var config = {
+	port: 8081,
 	useCompression: false,
 	builderCache: false,
 	minify : false,
 	cors : {
-		origin: [/\.symphony\.com:.*$/, /\.symphony\.com$/]
+	   origin: [/\.symphony\.com:.*$/, /\.symphony\.com$/]
 	},
-	middleware: 'middleware',
-
+    middleware: 'middleware',
 }
 
-var env = process.env.node_env || 'dev';
+var env = process.env.node_env;
 
 envConfig = {};
 try
@@ -18,6 +20,7 @@ try
 }
 catch (e)
 {
+	console.log(e);
 }
 
 module.exports = Object.merge(config, envConfig);

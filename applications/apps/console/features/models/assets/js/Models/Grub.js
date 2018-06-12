@@ -10,9 +10,15 @@ Package('Console.Models', {
 
 		getLunch : function(date)
 		{
+			var now = Date.now()
+			var then = date + 8 * 60 * 60 * 1000;
+			var notification;
+
+			if (now > then) notification = now + 5 * 60 * 1000
+			else notification = then;
 			return {
 				type: 'Lunch',
-				notification: date + 9 * 60 * 60 * 1000,
+				notification: notification,
 				start: date + 13 * 60 * 60 * 1000,
 				end: date + 17 * 60 * 60 * 1000,
 			};
@@ -20,6 +26,13 @@ Package('Console.Models', {
 
 		getDinner : function(date)
 		{
+			var now = Date.now()
+			var then = date + 15 * 60 * 60 * 1000;
+			var notification;
+
+			if (now > then) notification = now + 5 * 60 * 1000
+			else notification = then;
+
 			return {
 				type: 'Dinner',
 				notification: date + 15 * 60 * 60 * 1000,

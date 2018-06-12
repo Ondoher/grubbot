@@ -1,6 +1,6 @@
 Package('Grubbot.Services', {
 	Renderer : new Class({
-		implements : ['render', 'action'],
+        implements : ['render', 'action', 'reaped'],
 
 		initialize : function()
 		{
@@ -179,6 +179,7 @@ Package('Grubbot.Services', {
 					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
 					accent: 'tempo-bg-color--green',
 					stars: stars,
+					rating: Math.round(average * 100) / 100,
 				},
 			};
 
@@ -197,6 +198,7 @@ Package('Grubbot.Services', {
 					icon: GRUBBOT.baseUrl + '/grubbot/assets/images/grubbot.svg',
 					accent: 'tempo-bg-color--green',
 					stars: stars,
+					rating: Math.round(average * 100) / 100,
 				},
 			};
 
@@ -221,7 +223,7 @@ Package('Grubbot.Services', {
 						setTimeout(function()
 						{
 							this.track({instanceId: instanceId, entityData: entityData});
-						}.bind(this), 5000);
+                        }.bind(this), 500);
 
 					return result;
 				}.bind(this));
@@ -241,11 +243,15 @@ Package('Grubbot.Services', {
 					else if (!response.vote) result = this.renderVoting(entityData);
 					else result = this.renderVoted(entityData, response);
 
-					if (entityData.end > Date.now()) this.untrack(tracked.instanceId);
+					if (entityData.end < Date.now()) this.untrack(tracked.instanceId);
 
 					return this.entity.update(tracked.instanceId, result.template, result.data);
 				}.bind(this));
 		},
+
+        reaped : function(what, type, id, messageId) {
+            this.untrack(id);
+        },
 
 		onStart : function(done)
 		{
@@ -268,8 +274,7 @@ Package('Grubbot.Services', {
 
 			this.entity = SYMPHONY.services.subscribe('entity');
 			this.entity.registerRenderer('com.symphony.grubbot.feedback', {}, this.serviceName);
-			this.interval = setInterval(this.tick.bind(this), 180 * 1000);
-//			this.interval = setInterval(this.tick.bind(this), 5 * 60 * 1000);
+			this.interval = setInterval(this.tick.bind(this), 5 * 60 * 1000);
 		}
 	})
 });

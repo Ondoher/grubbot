@@ -2,7 +2,7 @@
   "applications": [
     {
       "type": "sandbox",
-      "id": "gb-admin",
+      "id": "gb-admin-dev",
       "name": "GbAdmin",
       "blurb": "Do the GbAdmin thing",
       "publisher": "",
@@ -13,7 +13,7 @@
     },
     {
       "type": "sandbox",
-      "id": "grubbot",
+      "id": "grubbot-dev",
       "name": "Grubbot",
       "blurb": "Do the Grubbot thing",
       "publisher": "",

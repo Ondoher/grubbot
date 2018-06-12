@@ -1,0 +1,15 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "grubbot",
+      "name": "Grubbot",
+      "blurb": "Renderer for the Grubbot",
+      "publisher": "Symphony",
+      "url": "https://apps.uber-geek.com/grubbot",
+      "domain": ".uber-geek.com",
+      "visible": true,
+      "icon":"https://apps.uber-geek.com/grubbot/assets/images/grubbot.png"
+    }
+  ]
+}
